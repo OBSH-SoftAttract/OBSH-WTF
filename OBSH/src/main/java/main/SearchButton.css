@@ -1,0 +1,16 @@
+.root{
+	-fx-background-color:white;
+	-fx-background-image:url("/30.jpeg"); 
+	
+}
+.SearchButton{
+	-fx-background-image:url("/searchicon.png"); 
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%;
+	-fx-background-color:#b2d235;
+}
+.ReturnButton{
+	-fx-background-image:url("/返回按钮.png"); 
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%;
+}

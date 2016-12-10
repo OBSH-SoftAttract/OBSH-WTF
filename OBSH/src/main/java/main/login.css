@@ -1,0 +1,30 @@
+.root{
+	-fx-background-color:white;
+}
+.Second{
+	-fx-background-color:#94ccd9;
+}
+.Center{
+	-fx-background-color:linear-gradient(to bottom,#94ccd9,white);
+}
+.SearchHotel{
+	-fx-background-color:#fbcb45;
+	-fx-font-size:18;
+	-fx-text-fill:black;
+}
+.CheckOrder{
+	-fx-background-color:#e4718e;
+	-fx-font-size:18;
+	-fx-text-fill:#a8a3a6;
+}
+.MaintainPersonalInfo{
+	-fx-background-color:#8dd97e;
+	-fx-font-size:18;
+	-fx-text-fill:white;
+}
+.SearchButton{
+	-fx-background-image:url("/searchicon.png"); 
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%;
+	-fx-background-color:#b2d235;
+}

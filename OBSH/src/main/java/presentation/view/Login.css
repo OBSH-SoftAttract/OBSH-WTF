@@ -1,0 +1,53 @@
+
+.root {
+     -fx-background-image: url("简笔画背景2.jpg");
+}
+
+.label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #663300;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+#welcome-text {
+   -fx-font-size: 32px;
+   -fx-font-family: "Claire Hand";
+   -fx-fill: #663300;
+  
+}
+
+#actiontarget {
+  -fx-fill: FIREBRICK;
+  -fx-font-weight: bold;
+  -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );  
+}
+
+
+#signin {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Black";
+    -fx-font-weight: bold;
+    -fx-background-color: #8b4513;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+#register {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Black";
+    -fx-font-weight: bold;
+    -fx-background-color: #8b4513;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+#signin hover {
+    -fx-background-color: linear-gradient(#000000, #8b4513);
+}
+
+#small {
+     -fx-background-image: url("最小化按钮.jpg");
+}
+
+#close {
+     -fx-background-image: url("关闭按钮.jpg");
+}

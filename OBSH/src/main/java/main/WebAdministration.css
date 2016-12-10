@@ -1,0 +1,10 @@
+.AddHotelWorkerButton{
+	-fx-background-color:#fbcb45;
+	-fx-font-size:18;
+	-fx-text-fill:black;
+}
+.ModifyHotelWorkerInfo{
+	-fx-background-color:#8dd97e;
+	-fx-font-size:18;
+	-fx-text-fill:white;
+}
