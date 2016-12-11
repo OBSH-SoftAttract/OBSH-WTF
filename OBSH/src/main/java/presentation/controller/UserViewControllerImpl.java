@@ -28,7 +28,7 @@ public class UserViewControllerImpl implements UserViewControllerService{
 	}
 
 	@Override
-	public ResultMessage successLogin(int userId, String password) throws RemoteException{
+	public ResultMessage successLogin(String userId, String password) throws RemoteException{
 		return userService.login(userId, password);
 	}
 

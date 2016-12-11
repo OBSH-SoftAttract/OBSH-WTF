@@ -1,0 +1,11 @@
+.root {
+     -fx-background-image: url("简笔画背景.jpg");
+}
+
+#minimize {
+     -fx-background-image: url("最小化按钮.jpg");
+}
+
+#close {
+     -fx-background-image: url("关闭按钮.jpg");
+}

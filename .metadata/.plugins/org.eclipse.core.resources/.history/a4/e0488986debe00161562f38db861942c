@@ -1,0 +1,67 @@
+package presentation.controller;
+
+import java.rmi.RemoteException;
+
+import ResultMessage.ResultMessage;
+import blservice.UserBLService;
+import client_rmi.RemoteHelper_client;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import presentation.view.HotelStaff;
+import presentation.view.HotelStaffControllerService;
+
+public class HotelStaffController implements HotelStaffControllerService{
+	
+	@FXML
+	Text welcome;
+	
+	@FXML
+	Label l1;
+	
+	@FXML
+	Label l2;
+	
+	@FXML
+	TextField name;
+	
+	@FXML
+	TextField password;
+	
+	@FXML
+	Button b1;
+	
+	@FXML
+	Button b2;
+	
+	@FXML
+	Button sign;
+
+	private HotelStaff main;
+	
+
+	@FXML
+	private void confirmAction(){
+		main.getPrimaryStage().close();
+		/*HotelStaff_RoomMessage n = new HotelStaff_RoomMessage();
+		n.start(new Stage());*/
+	}
+	
+	@FXML
+	void CloseStage(){
+		main.getPrimaryStage().close();
+	}
+
+	public void setLoginFrame(HotelStaff main) {
+		// TODO Auto-generated method stub
+		this.main = main;
+		
+	}
+
+
+}

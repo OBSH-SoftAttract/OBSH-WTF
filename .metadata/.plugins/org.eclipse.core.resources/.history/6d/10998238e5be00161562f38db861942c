@@ -1,0 +1,6 @@
+package presentation.view;
+
+public class UIHelper {
+	public UIHelper()
+
+}

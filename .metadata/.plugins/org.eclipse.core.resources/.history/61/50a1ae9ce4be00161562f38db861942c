@@ -1,0 +1,162 @@
+package presentation.view;
+
+import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Window;
+import presentation.controller.HotelStaffController;
+
+public class HotelStaff extends Application {
+	private Stage primaryStage;
+
+	@Override
+	public void start(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+		primaryStage.setResizable(false);
+		primaryStage.initStyle(StageStyle.TRANSPARENT);
+
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("客户登录界面.fxml"));
+			BorderPane frame = (BorderPane) loader.load();
+			enableDragging(frame);
+			
+			Scene scene = new Scene(frame);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+			HotelStaffController controller = loader.getController();
+			controller.setLoginFrame(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void enableDragging(BorderPane root) {
+		/*
+		 * This mouse event is for resizing window. Define some specific cursor patterns.
+		 */
+		root.setOnMouseMoved(new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent me) {
+		if (me.getX() > root.getWidth() - 10 && me.getX() < root.getWidth() + 10 && me.getY() > root.getHeight() - 10
+		&& me.getY() < root.getHeight() + 10) {
+		root.setCursor(Cursor.SE_RESIZE);
+		} else if (me.getX() > root.getWidth() - 5 && me.getX() < root.getWidth() + 5) {
+		root.setCursor(Cursor.H_RESIZE);
+		} else if (me.getY() > root.getHeight() - 5 && me.getY() < root.getHeight() + 5) {
+		root.setCursor(Cursor.V_RESIZE);
+		} else {
+		root.setCursor(Cursor.DEFAULT);
+		}
+		}
+		});
+		
+
+		/* when mouse button is pressed, save the initial position of screen. */
+		root.setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent me) {
+				Window primaryStage = root.getScene().getWindow();
+				anchor.set(new Point2D(me.getScreenX() - primaryStage.getX(), me.getScreenY() - primaryStage.getY()));
+				widthStage.set(primaryStage.getWidth());	
+				heightStage.set(primaryStage.getHeight());
+			}
+		});
+
+		/*
+		 * when mouse button is released, clear the initial position of screen. This action is very important, because it can be a judge to avoid
+		 * mouse interaction with other nodes as ChoiceBox.
+		 */
+		root.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent me) {
+				anchor.set(null);
+			}
+		});
+
+		/*
+		 * when screen is dragged, translate it accordingly. Note that the transparent pixels part contained in the root will not react to the drag.
+		 * But translucent color is able to.
+		 */
+		root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent me) {
+				if (anchor.get() != null) {
+					/* The drag event on the root really takes place. */
+					drag(me, root);
+				}
+			}
+		});
+
+	}
+	
+	/**
+	 * Drag the primary stage.
+	 * 
+	 * @param me
+	 *            - the mouse event
+	 * @param root
+	 *            - the root node of stage
+	 */
+	private void drag(MouseEvent me, Node root) {
+	Window primaryStage = root.getScene().getWindow();
+	if (root.getCursor() == Cursor.H_RESIZE) {
+	setWidth(me, primaryStage);
+	} else if (root.getCursor() == Cursor.V_RESIZE) {
+	setHeight(me, primaryStage);
+	} else if (root.getCursor() == Cursor.SE_RESIZE) {
+	setWidth(me, primaryStage);
+	setHeight(me, primaryStage);
+	} else {
+	/* moving the stage */
+	moveStage(me, primaryStage);
+	}
+	}
+
+	/**
+	 * Set the stage width.
+	 * 
+	 * @param me
+	 *            - the mouse event
+	 * @param primaryStage
+	 *            - the primary stage
+	 */
+	private void setWidth(MouseEvent me, Window primaryStage) {
+	double stageMinWidth = 600;
+	primaryStage.setWidth(Math.max(stageMinWidth, widthStage.get() + (me.getScreenX() - (anchor.get().getX() + primaryStage.getX()))));
+	}
+
+	/**
+	 * Set the stage height.
+	 * 
+	 * @param me
+	 *            - the mouse event
+	 * @param primaryStage
+	 *            - the primary stage
+	 */
+	private void setHeight(MouseEvent me, Window primaryStage) {
+	double stageMinHeight = 400;
+	primaryStage.setHeight(Math.max(stageMinHeight, heightStage.get() + (me.getScreenY() - (anchor.get().getY() + primaryStage.getY()))));
+	}
+
+	/**
+	 * Returns the main stage.
+	 * 
+	 * @return
+	 */
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
+
+	public static void main(String[] args) {
+		launch(args);
+	}
+}

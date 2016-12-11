@@ -3,7 +3,7 @@ package po;
 import java.sql.Timestamp;
 
 /**
- * userID		                    用户编号 int类型
+ * userID		                    用户编号 String类型
  * time                   每一次信用值变化的时间 类型为DateTIme
  * action                 动作 int类型（0 订单执行、1 订单异常、2 订单撤销、3 充值）
  * CreditChange           信用值变化  String表示+-表示增减 之后为具体数值 如+500
@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 
 public class CreditPo {
 	
-	private int userID;
+	private String userID;
 	
 	private Timestamp  time;
 	
@@ -32,7 +32,7 @@ public class CreditPo {
 	 * @param userId
 	 * @param CreditResult
 	 */
-	public CreditPo(int userID, Timestamp time, double CreditResult){
+	public CreditPo(String userID, Timestamp time, double CreditResult){
 		this.userID = userID;
 		this.time = time;
 		this.CreditResult = CreditResult;	
@@ -46,7 +46,7 @@ public class CreditPo {
 	 * @param CreditResultChange
 	 * @param CreditResultResult
 	 */
-	public CreditPo(int userID, Timestamp  time, int action, String CreditChange, double CreditResult) {
+	public CreditPo(String userID, Timestamp  time, int action, String CreditChange, double CreditResult) {
 		this.userID = userID;
 		this.time = time;
 		this.action = action;
@@ -54,11 +54,11 @@ public class CreditPo {
 		this.CreditResult = CreditResult;
 	}
 
-	public int getUserID() {
+	public String getUserID() {
 		return userID;
 	}
 	
-	public void setUserId(int userID) {
+	public void setUserId(String userID) {
 		this.userID = userID;
 	}
 	

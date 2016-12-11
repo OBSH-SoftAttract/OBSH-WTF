@@ -13,7 +13,7 @@ public interface CreditDao {
 	 * @param userId
 	 * @return 该客户的所有信用记录
 	 */
-	public List<CreditPo> getCredit(int userId);
+	public List<CreditPo> getCredit(String userId);
 	
 	/**
 	 * @param creditPo

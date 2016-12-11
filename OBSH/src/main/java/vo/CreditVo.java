@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  */
 
 public class CreditVo {
-	private int userID;
+	private String userID;
 	
 	private Timestamp  time;
 	
@@ -20,7 +20,7 @@ public class CreditVo {
 	
 	private double CreditResult;
 	
-	public CreditVo(int id,Timestamp t,int act,String creChange,double credit){
+	public CreditVo(String id,Timestamp t,int act,String creChange,double credit){
 		this.userID=id;
 		this.time=t;
 		this.action=act;
@@ -29,11 +29,11 @@ public class CreditVo {
 	}
 	
 	
-	public int getUserID() {
+	public String getUserID() {
 		return userID;
 	}
 	
-	public void setUserId(int userID) {
+	public void setUserId(String userID) {
 		this.userID = userID;
 	}
 	

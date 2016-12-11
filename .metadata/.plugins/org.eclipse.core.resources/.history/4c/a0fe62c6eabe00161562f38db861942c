@@ -1,0 +1,14 @@
+package presentation.controller;
+
+import presentation.view.RoomMessage;
+
+public class RoomMessageController {
+	private RoomMessage roomMessage;
+
+	public void setHotelStaff(RoomMessage roomMessage) {
+		// TODO Auto-generated method stub
+		this.roomMessage = roomMessage;
+		
+	}
+
+}

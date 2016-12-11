@@ -3,12 +3,12 @@ package po;
 import vo.UserVo;
 
 public class UserPo {
-	private int id;
+	private String id;
 	private String username;
 	private String password; 
 	private String phone; 
 	
-	public UserPo (int i, String pa,String ph,String un){ 
+	public UserPo (String i, String pa,String ph,String un){ 
 		this.id=i;
 		this.password=pa; 
 		this.phone=ph;
@@ -20,10 +20,10 @@ public class UserPo {
 		this.phone=vo.getPhone();
 		this.username=vo.getUsername();
 	}
-	public int getID(){
+	public String getID(){
 		return id;
 	}
-	public void setID(int i){
+	public void setID(String i){
 		this.id=i; 
 	}
 	public String getPassword(){ 

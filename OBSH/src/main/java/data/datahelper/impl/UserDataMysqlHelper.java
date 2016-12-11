@@ -22,17 +22,17 @@ public class UserDataMysqlHelper implements UserDataHelper {
 	static int sta;  
 	
 	@Override
-	public Map<Integer, UserPo> getUserData() {
+	public Map<String, UserPo> getUserData() {
 		// TODO Auto-generated method stub
 		  
 	    sql = "select *from user";//SQL语句  
 	    db1 = new JDBCHelper(sql);//创建DBHelper对象  
-	    Map<Integer, UserPo> map = new HashMap<Integer, UserPo>();
+	    Map<String, UserPo> map = new HashMap<String, UserPo>();
 	    
 	    try {  
 	    	ret = db1.pst.executeQuery();//执行语句，得到结果集  
 	        while (ret.next()) {  
-	        	int id = ret.getInt(1);  
+	        	String id = ret.getString(1);  
 	            String name = ret.getString(2);  
 	            String password = ret.getString(3);  
 	            String contactinfo = ret.getString(4);
@@ -52,7 +52,7 @@ public class UserDataMysqlHelper implements UserDataHelper {
 	public void addUserData(UserPo userPo) {
 		// TODO Auto-generated method stub
 
-		sql = "insert into user value("+userPo.getID()+", '"+userPo.getUsername()+"' ,"+userPo.getPassword()+","+userPo.getPhone()+")";
+		sql = "insert into user value('"+userPo.getID()+"', '"+userPo.getUsername()+"' ,"+userPo.getPassword()+","+userPo.getPhone()+")";
 		db1 = new JDBCHelper(sql);//创建DBHelper对象  
 		try {
 			sta = db1.pst.executeUpdate(sql);
@@ -64,17 +64,17 @@ public class UserDataMysqlHelper implements UserDataHelper {
 	}
 	
 	@Override
-	public void updateUserData(Map<Integer, UserPo> map) {
+	public void updateUserData(Map<String, UserPo> map) {
 		// TODO Auto-generated method stub
-		Iterator<Map.Entry<Integer, UserPo>> iterator = map.entrySet().iterator();
+		Iterator<Map.Entry<String, UserPo>> iterator = map.entrySet().iterator();
 		while(iterator.hasNext()){
-			Map.Entry<Integer, UserPo> entry = iterator.next();
+			Map.Entry<String, UserPo> entry = iterator.next();
 			UserPo userPo = entry.getValue();
 
 			sql = "update user set name = '"+userPo.getUsername()+
 					"', password = '"+userPo.getPassword()+
 					"',contactinfo = '"+userPo.getPhone()+
-					"’ where id = "+userPo.getID();//SQL语句 
+					"’ where id = '"+userPo.getID()+"'";//SQL语句 
 			db1 = new JDBCHelper(sql);//创建DBHelper对象  
 			try {
 				sta = db1.pst.executeUpdate(sql);

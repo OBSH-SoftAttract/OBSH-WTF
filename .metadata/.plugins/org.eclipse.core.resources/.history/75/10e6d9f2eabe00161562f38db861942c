@@ -1,0 +1,23 @@
+package presentation.controller;
+
+import javafx.fxml.FXML;
+import javafx.stage.Stage;
+import presentation.view.RoomMessage;
+
+public class RoomMessageController {
+	private RoomMessage roomMessage;
+	
+	@FXML
+	private void BackToSignIn() {
+		roomMessage.getPrimaryStage().close();
+		RoomMessage n = new RoomMessage();
+		n.start(new Stage());
+	}
+
+	public void setHotelStaff(RoomMessage roomMessage) {
+		// TODO Auto-generated method stub
+		this.roomMessage = roomMessage;
+		
+	}
+
+}

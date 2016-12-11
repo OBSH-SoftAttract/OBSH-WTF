@@ -12,7 +12,7 @@ import po.CreditPo;
 
 public class CreditDaoImpl implements CreditDao {
 	
-	private Map<Integer,CreditPo> map;
+	private Map<String,CreditPo> map;
 	
 	private CreditDataHelper creditDataHelper;
 	
@@ -36,13 +36,13 @@ public class CreditDaoImpl implements CreditDao {
 	}
 	
 	@Override
-	public List<CreditPo> getCredit(int userID) {
+	public List<CreditPo> getCredit(String userID) {
 		// TODO Auto-generated method stub
 		
 		List<CreditPo> creditAll = new ArrayList<CreditPo>();
-		Iterator<Entry<Integer, CreditPo>> iterator = map.entrySet().iterator();
+		Iterator<Entry<String, CreditPo>> iterator = map.entrySet().iterator();
 		while(iterator.hasNext()){
-			Entry<Integer, CreditPo> entry = iterator.next();
+			Entry<String, CreditPo> entry = iterator.next();
 			CreditPo creditPo = entry.getValue();
 			
 			if(creditPo.getUserID()==userID)
@@ -62,7 +62,7 @@ public class CreditDaoImpl implements CreditDao {
 	public boolean setCredit(CreditPo creditPo) {
 		// TODO Auto-generated method stub
 		
-		int userId = creditPo.getUserID();
+		String userId = creditPo.getUserID();
 		if(map.get(userId)==null) {
 			creditDataHelper.setCreditData(creditPo);
 			return true;

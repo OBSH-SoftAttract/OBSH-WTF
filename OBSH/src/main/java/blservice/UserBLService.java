@@ -20,14 +20,14 @@ public interface UserBLService {
 	 * @param password
 	 * @return 登录
 	 */
-	public ResultMessage login(int id, String password)throws RemoteException;
+	public ResultMessage login(String id, String password)throws RemoteException;
 	
 	/**
 	 * 
 	 * @param id
 	 * @return 获得信用记录
 	 */
-	public List<CreditPo> getHistoryCredit(int id)throws RemoteException;
+	public List<CreditPo> getHistoryCredit(String id)throws RemoteException;
 	
 	
 	/**

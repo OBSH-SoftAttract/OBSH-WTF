@@ -38,7 +38,7 @@ public class UserBLServiceImpl implements UserBLService{
 	}
 	
 	@Override
-	public ResultMessage login(int id, String password) throws RemoteException{
+	public ResultMessage login(String id, String password) throws RemoteException{
 		UserPo po=userdao.getUser(id);
 		if(null==po)return ResultMessage.NotExist;
 		if(po.getPassword().equals(password))
@@ -113,7 +113,7 @@ public class UserBLServiceImpl implements UserBLService{
 	}
 
 	@Override
-	public List<CreditPo> getHistoryCredit(int id) throws RemoteException{
+	public List<CreditPo> getHistoryCredit(String id) throws RemoteException{
 		return creditdao.getCredit(id);
 	}
 

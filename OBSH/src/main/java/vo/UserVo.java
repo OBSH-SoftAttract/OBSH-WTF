@@ -2,7 +2,7 @@ package vo;
 
 
 public class UserVo {
-	private int id;
+	private String id;
 	private String username;
 	private String password;
 	private String phone;
@@ -11,18 +11,18 @@ public class UserVo {
 		super();
 	}
 
-	public UserVo (int i, String pa,String ph,String un){ 
+	public UserVo (String i, String pa,String ph,String un){ 
 		this.id=i;
 		this.password=pa; 
 		this.phone=ph;
 		this.username=un;
 	}
 
-	public int getID() {
+	public String getID() {
 		return id;
 	}
 
-	public void setID(int id) {
+	public void setID(String id) {
 		this.id = id;
 	}
 

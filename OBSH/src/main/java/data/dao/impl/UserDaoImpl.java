@@ -16,7 +16,7 @@ import data.datahelper.impl.DataFactoryImpl;
 
 public class UserDaoImpl implements UserDao{
 	
-	private Map<Integer,UserPo> map;
+	private Map<String,UserPo> map;
 	
 	private UserDataHelper userDataHelper;
 	
@@ -39,12 +39,12 @@ public class UserDaoImpl implements UserDao{
 		}
 	}
 	
-	public UserPo getUser(int userId) {
+	public UserPo getUser(String userId) {
 		return map.get(userId);
 	}
 
 	public boolean addUser(UserPo userPo) {
-		int userID = userPo.getID();
+		String userID = userPo.getID();
 		if(map.get(userID)==null) {
 			userDataHelper.addUserData(userPo);
 			return true;
@@ -53,7 +53,7 @@ public class UserDaoImpl implements UserDao{
 	}
 	
 	public boolean updateUser(UserPo userPo) {
-		int userId = userPo.getID();
+		String userId = userPo.getID();
 		if(map.get(userId) != null){
 			map.put(userId, userPo);
 			userDataHelper.updateUserData(map);

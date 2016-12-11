@@ -1,0 +1,66 @@
+package presentation.controller;
+
+import java.rmi.RemoteException;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import presentation.view.BasicMessage;
+import presentation.view.HotelStaff;
+/**
+ * BasicMessage在javafx下的控制器
+ * @author bxh
+ *
+ */
+public class BasicMessageController {
+	
+	@FXML
+	private Text welcome;
+	
+	@FXML
+	private Label l1;
+	
+	@FXML
+	private Label l2;
+	
+	@FXML
+	private TextField name;
+	
+	@FXML
+	private PasswordField password;
+	
+	@FXML
+	private Button minimize;
+	
+	@FXML
+	private Button close;
+	
+	@FXML
+	private Button sign;
+
+	@FXML
+	private Label failOutput;
+	
+	private BasicMessage basicMessage;
+	
+	@FXML
+	private void CloseStage(){
+		basicMessage.getPrimaryStage().close();
+	}
+
+	@FXML
+	private void minimizeStage() {
+		basicMessage.getPrimaryStage().setIconified(true); 
+	}
+	
+	public void setBasicMessage(BasicMessage basicMessage) {
+		// TODO Auto-generated method stub
+		this.basicMessage = basicMessage;
+		
+	}
+
+
+}

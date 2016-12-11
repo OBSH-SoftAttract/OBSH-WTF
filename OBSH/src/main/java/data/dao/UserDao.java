@@ -7,10 +7,10 @@ import po.UserPo;
 public interface UserDao {
 	
 	/**
-	 * @param userId
+	 * @param id
 	 * @return	获取用户信息
 	 */
-	public UserPo getUser(int userId);
+	public UserPo getUser(String id);
 	
 	/**
 	 * @param userPo

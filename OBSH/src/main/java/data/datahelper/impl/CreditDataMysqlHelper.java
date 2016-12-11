@@ -21,17 +21,17 @@ public class CreditDataMysqlHelper implements CreditDataHelper {
 	static int sta; 
 	
 	@Override
-	public Map<Integer, CreditPo> getCreditData() {
+	public Map<String, CreditPo> getCreditData() {
 		// TODO Auto-generated method stub
 		
 		sql = "select *from credit";//SQL语句  
 		db1 = new JDBCHelper(sql);//创建DBHelper对象  
-		Map<Integer, CreditPo> map = new HashMap<Integer, CreditPo>();
+		Map<String, CreditPo> map = new HashMap<String, CreditPo>();
 		    
 		try {  
 			ret = db1.pst.executeQuery();//执行语句，得到结果集  
 		    while (ret.next()) {  
-		    	int userId = ret.getInt(1);  
+		    	String userId = ret.getString(1);  
 		    	Timestamp time = ret.getTimestamp(2);
 		    	int action = ret.getInt(3);
 		        String creditChange = ret.getString(4); 
@@ -76,8 +76,8 @@ public class CreditDataMysqlHelper implements CreditDataHelper {
 	public void setCreditData(CreditPo creditPo) {
 		// TODO Auto-generated method stub
 
-		sql = "insert into credit value("+creditPo.getUserID()+
-				",'"+creditPo.getTime()+
+		sql = "insert into credit value('"+creditPo.getUserID()+
+				"','"+creditPo.getTime()+
 				"',"+creditPo.getCreditResult()+")";
 		db1 = new JDBCHelper(sql);//创建DBHelper对象  
 		try {
@@ -93,8 +93,8 @@ public class CreditDataMysqlHelper implements CreditDataHelper {
 	public void addCreditData(CreditPo creditPo) {
 		// TODO Auto-generated method stub
 
-		sql = "insert into credit value("+creditPo.getUserID()+
-				",'"+creditPo.getTime()+
+		sql = "insert into credit value('"+creditPo.getUserID()+
+				"','"+creditPo.getTime()+
 				"',"+creditPo.getAction()+
 				"','"+creditPo.getCreditChange()+
 				"',"+creditPo.getCreditResult()+")";
