@@ -1,0 +1,386 @@
+package HotelStaffUI.controller;
+
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+public class DealOrderController {
+	
+	@FXML
+	private Button basic;
+	
+	@FXML
+	private Tab allType;
+	
+	@FXML
+	private Tab unexecuted;
+	
+	@FXML
+	private Tab executed;
+	
+	@FXML
+	private Tab abnormal;
+	
+	@FXML
+	private Tab cancel;
+	
+	@FXML
+	private TableView table1;
+	
+	@FXML
+	private TableView table2;
+	
+	@FXML
+	private TableView table3;
+	
+	@FXML
+	private TableView table4;
+	
+	@FXML
+	private TableView table5;
+	
+	@FXML
+	private TableColumn od1,ui1,os1,la1,et1,tn1,ic1,p1;  //所有订单的列表名 以下依次
+	
+	@FXML
+	private TableColumn od2,ui2,os2,la2,et2,tn2,ic2,p2;  //未执行
+	
+	@FXML
+	private TableColumn od3,ui3,os3,la3,et3,tn3,ic3,p3;  //已执行
+	
+	@FXML
+	private TableColumn od4,ui4,os4,la4,et4,tn4,ic4,p4;  //异常
+	
+	@FXML
+	private TableColumn od5,ui5,os5,la5,et5,tn5,ic5,p5;  //撤销
+	
+	/**
+	 * 初始化函数
+	 * 初始化列表全为空
+	 * 可以考虑把他们改成封装类 传入的是new Order后的内容 后面那个od…………
+	 * 想过监听和在一起 感觉不合适
+	 * 另外这个函数可以不要 加在监听中 这里给出方法 起码可以复制粘贴
+	 * 就是说我现在在initialize加的内容是提供给你复制粘贴的 
+	 * 真正打开后的监听在tableview里
+	 */
+	@FXML
+	private void initialize() {
+		final ObservableList<Order> data = FXCollections.observableArrayList(
+				new Order("","","","","","","",0));
+
+        od1.setCellValueFactory(
+                new PropertyValueFactory<>("orderId")
+            );
+        ui1.setCellValueFactory(
+                new PropertyValueFactory<>("info")
+            );
+        os1.setCellValueFactory(
+                new PropertyValueFactory<>("state")
+            );
+        la1.setCellValueFactory(
+                new PropertyValueFactory<>("latest")
+            );
+        et1.setCellValueFactory(
+                new PropertyValueFactory<>("enter")
+            );
+        tn1.setCellValueFactory(
+                new PropertyValueFactory<>("typeNum")
+            );
+        ic1.setCellValueFactory(
+                new PropertyValueFactory<>("isChild")
+            );
+        p1.setCellValueFactory(
+                new PropertyValueFactory<>("price")
+            );
+		table1.setItems(data);
+		
+		
+        od2.setCellValueFactory(
+                new PropertyValueFactory<>("orderId")
+            );
+        ui2.setCellValueFactory(
+                new PropertyValueFactory<>("info")
+            );
+        os2.setCellValueFactory(
+                new PropertyValueFactory<>("state")
+            );
+        la2.setCellValueFactory(
+                new PropertyValueFactory<>("latest")
+            );
+        et2.setCellValueFactory(
+                new PropertyValueFactory<>("enter")
+            );
+        tn2.setCellValueFactory(
+                new PropertyValueFactory<>("typeNum")
+            );
+        ic2.setCellValueFactory(
+                new PropertyValueFactory<>("isChild")
+            );
+        p2.setCellValueFactory(
+                new PropertyValueFactory<>("price")
+            );
+		table2.setItems(data);
+		
+		
+        od3.setCellValueFactory(
+                new PropertyValueFactory<>("orderId")
+            );
+        ui3.setCellValueFactory(
+                new PropertyValueFactory<>("info")
+            );
+        os3.setCellValueFactory(
+                new PropertyValueFactory<>("state")
+            );
+        la3.setCellValueFactory(
+                new PropertyValueFactory<>("latest")
+            );
+        et3.setCellValueFactory(
+                new PropertyValueFactory<>("enter")
+            );
+        tn3.setCellValueFactory(
+                new PropertyValueFactory<>("typeNum")
+            );
+        ic3.setCellValueFactory(
+                new PropertyValueFactory<>("isChild")
+            );
+        p3.setCellValueFactory(
+                new PropertyValueFactory<>("price")
+            );
+		table3.setItems(data);
+		
+		
+        od4.setCellValueFactory(
+                new PropertyValueFactory<>("orderId")
+            );
+        ui4.setCellValueFactory(
+                new PropertyValueFactory<>("info")
+            );
+        os4.setCellValueFactory(
+                new PropertyValueFactory<>("state")
+            );
+        la4.setCellValueFactory(
+                new PropertyValueFactory<>("latest")
+            );
+        et4.setCellValueFactory(
+                new PropertyValueFactory<>("enter")
+            );
+        tn4.setCellValueFactory(
+                new PropertyValueFactory<>("typeNum")
+            );
+        ic4.setCellValueFactory(
+                new PropertyValueFactory<>("isChild")
+            );
+        p4.setCellValueFactory(
+                new PropertyValueFactory<>("price")
+            );
+		table4.setItems(data);
+		
+		
+        od5.setCellValueFactory(
+                new PropertyValueFactory<>("orderId")
+            );
+        ui5.setCellValueFactory(
+                new PropertyValueFactory<>("info")
+            );
+        os5.setCellValueFactory(
+                new PropertyValueFactory<>("state")
+            );
+        la5.setCellValueFactory(
+                new PropertyValueFactory<>("latest")
+            );
+        et5.setCellValueFactory(
+                new PropertyValueFactory<>("enter")
+            );
+        tn5.setCellValueFactory(
+                new PropertyValueFactory<>("typeNum")
+            );
+        ic5.setCellValueFactory(
+                new PropertyValueFactory<>("isChild")
+            );
+        p5.setCellValueFactory(
+                new PropertyValueFactory<>("price")
+            );
+		table5.setItems(data);
+	}
+	
+	@FXML
+	private void showAllType() {
+		/**
+		 * 下面这几个都差不多就是在列表中显示数据 构造的函数在最下面
+		 * 初始化函数里为所有订单
+		 * 就是我上面说的tableview的监听
+		 * 但是这里运行会有错误
+		 * 我还不知道为什么 
+		 * 容我再去问问
+		 */
+	}
+	
+	@FXML
+	private void showUnexecuted() {
+		
+	}
+	
+	@FXML
+	private void showExecuted() {
+		
+	}
+	
+	@FXML
+	private void showAbnormal() {
+		
+	}
+	
+	@FXML
+	private void showCancel() {
+		
+	}
+	
+	@FXML 
+	private void delay() {
+		Stage stage = new Stage();
+		VBox vb = new VBox();
+		Text delayt = new Text("订单延期至:");
+		TextField delaytf = new TextField();
+		delaytf.setMaxWidth(150);
+		delaytf.setTooltip(new Tooltip("格式为:yyyy-MM-dd HH:mm:ss"));
+		Button delay = new Button("延期");
+		Button cancel = new Button("取消");
+		HBox hb = new HBox();
+		hb.setSpacing(40);
+		hb.getChildren().addAll(delay,cancel);
+		vb.getChildren().addAll(delayt,delaytf,hb);
+		vb.setMaxSize(400,350);
+		vb.setMinSize(400,350);
+		vb.setSpacing(40);
+		vb.setAlignment(Pos.CENTER);
+		vb.setPadding(new Insets(20,20,20,20));
+		hb.setAlignment(Pos.CENTER);
+		Scene delayscene = new Scene(vb);
+		stage.setScene(delayscene);
+		stage.initStyle(StageStyle.TRANSPARENT);
+		stage.show();
+		
+		delay.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				/**
+				 * 处理延期事件
+				 */
+			}
+		});
+		
+		cancel.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				stage.close();
+			}
+			});
+	}
+	
+	/**
+	 * order列表的构造函数
+	 * @author asus1
+	 *
+	 */
+	public static class Order {
+		private final SimpleStringProperty orderId;
+		private final SimpleStringProperty info;
+		private final SimpleStringProperty state;
+		private final SimpleStringProperty latest;
+		private final SimpleStringProperty enter;
+		private final SimpleStringProperty typeNum;
+		private final SimpleStringProperty isChild;
+		private final SimpleDoubleProperty price;
+	 
+		private Order(String orderId, String info, String state, String latest, String enter, String typeNum, String isChild, double price) {
+			this.orderId = new SimpleStringProperty(orderId);
+			this.info = new SimpleStringProperty(info);
+			this.state = new SimpleStringProperty(state);
+			this.latest = new SimpleStringProperty(latest);
+			this.enter = new SimpleStringProperty(enter);
+			this.typeNum = new SimpleStringProperty(typeNum);
+			this.isChild = new SimpleStringProperty(isChild);
+			this.price = new SimpleDoubleProperty(price);
+			
+		}
+	 
+		public String getOrderIde() {
+			return orderId.get();
+		}	 
+		public void setOrderId(String id) {
+			orderId.set(id);
+		} 
+		public String getInfo() {
+			return info.get();
+		}	 
+		public void setInfo(String in) {
+			info.set(in);
+		}
+		public String getState() {
+			return state.get();
+		}	 
+		public void setState(String st) {
+			state.set(st);
+		}
+		public String getLatest() {
+			return latest.get();
+		}
+	 
+		public void setLatest(String la) {
+			latest.set(la);
+		}
+		
+		public String getEnter() {
+			return enter.get();
+		}
+	 
+		public void setEnter(String et) {
+			enter.set(et);
+		}
+		
+		public String getTypeNum() {
+			return typeNum.get();
+		}
+	 
+		public void setTypeNum(String tn) {
+			typeNum.set(tn);
+		}
+		
+		public String getIsChild() {
+			return isChild.get();
+		}
+	 
+		public void setIsChild(String ic) {
+			isChild.set(ic);
+		}
+		
+		public double getPrice() {
+			return price.get();
+		}
+	 
+		public void setPrice(double p) {
+			price.set(p);
+		}
+
+
+	}
+}

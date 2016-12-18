@@ -1,0 +1,4 @@
+.root {
+	-fx-background-image: url("/基本背景.jpg");
+	-fx-effect: dropshadow( gaussian , rgba(130,219,233,2.5) , 0.5,0.5,1,1 ); 
+}

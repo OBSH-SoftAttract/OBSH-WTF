@@ -1,0 +1,122 @@
+.root{
+	-fx-background-image:url("/背景.png");
+}
+.SearchHotel{
+	-fx-background-image:url("/tagblue.png");
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%; 
+	-fx-border-color:#b5b5b5;
+	-fx-background-color:#b5b5b5;
+}
+.CheckOrder{
+	-fx-background-image:url("/tagyellow.png");
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%; 
+	-fx-border-color:#b5b5b5;
+	-fx-background-color:#b5b5b5;
+}
+.MaintainPersonalInfo{
+	-fx-background-image:url("/tagpink.png");
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%; 
+	-fx-border-color:#b5b5b5;
+	-fx-background-color:#b5b5b5;
+}
+.ReverseHistory{
+	-fx-background-image:url("/taggreen.png");
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%; 
+	-fx-border-color:#b5b5b5;
+	-fx-background-color:#b5b5b5;
+}
+.SearchButton{
+	-fx-background-image:url("/searchicon.png"); 
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%;
+	-fx-border-color:white;
+	-fx-background-color:white;
+}
+.FlexibleButton{
+	-fx-background-image:url("/按钮.png"); 
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%; 
+	-fx-border-color:white;
+	-fx-background-color:white;
+}
+.ExpandButton{
+	-fx-background-image:url("/expandbutton.png"); 
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%; 
+	-fx-border-color:white;
+	-fx-background-color:white;
+}
+.Label{
+	-fx-background-image:url("/field.png"); 
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%; 
+	-fx-border-color:white;
+	-fx-background-color:white;
+}
+.ordervb{
+	-fx-background-color:white;
+}
+#ToggleButton{
+	-fx-background-image:url("/原按钮.png"); 
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%;
+	-fx-text-fill:#81511c;
+	-fx-border-color:white;
+	-fx-background-color:white;
+}
+#SelectedButton{
+	-fx-background-image:url("/button.png"); 
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%;
+	-fx-text-fill:white;
+	-fx-border-color:white;
+}
+.vb{
+	-fx-background-color:white;
+}
+.AddHotelWorkerButton{
+	-fx-background-color:#fbcb45;
+	-fx-font-size:18;
+	-fx-text-fill:black;
+}
+.ModifyHotelWorkerInfo{
+	-fx-background-color:#8dd97e;
+	-fx-font-size:18;
+	-fx-text-fill:white;
+}
+.Usertag{
+	-fx-background-image:url("/tagblue.png");
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%; 
+	-fx-border-color:white;
+	-fx-background-color:white;
+}
+.Hoteltag{
+	-fx-background-image:url("/tagyellow.png");
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%; 
+	-fx-border-color:white;
+	-fx-background-color:white;
+}
+.Webtag{
+	-fx-background-image:url("/tagpink.png");
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%; 
+	-fx-border-color:white;
+	-fx-background-color:white;
+}
+#Text{
+	-fx-fill:#bdd97e;
+	-fx-font-size:32;
+}
+.CloseButton{
+	-fx-background-image:url("'/关闭按钮.png"); 
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%;
+	-fx-border-color:white;
+	-fx-border-width:0;
+}

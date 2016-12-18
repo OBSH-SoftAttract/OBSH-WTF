@@ -1,0 +1,20 @@
+.root{
+	-fx-background-image:url("'/背景1.png"); 
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%;
+}
+.hbox {
+   -fx-background-color: #2f4f4f;
+   -fx-padding: 15;
+   -fx-spacing: 10;
+}
+.Button{
+	-fx-background-color:lightblue;
+}
+.CloseButton{
+	-fx-background-image:url("'/关闭按钮.png"); 
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%;
+	-fx-border-color:white;
+	-fx-border-width:0;
+}

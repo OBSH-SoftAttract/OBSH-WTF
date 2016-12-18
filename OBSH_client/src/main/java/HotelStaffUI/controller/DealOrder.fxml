@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HotelStaffUI.controller.DealOrderController">
+   <children>
+      <TabPane layoutX="10.0" layoutY="10.0" prefHeight="545.0" prefWidth="720.0" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+         	 <Tab onSelectionChanged="#showAllType" text="所有类型">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="table1" layoutX="8.0" layoutY="9.0" prefHeight="400.0" prefWidth="700.0">
+                           <columns>
+							  <TableColumn fx:id="od1" prefWidth="75.0" text="订单号" />
+                              <TableColumn fx:id="ui1" prefWidth="75.0" text="客户信息" />
+                              <TableColumn fx:id="os1" prefWidth="75.0" text="订单状态" />
+                              <TableColumn fx:id="la1" prefWidth="136.0" text="最晚订单执行时间" />
+                              <TableColumn fx:id="et1" prefWidth="84.0" text="入住时间" />
+                              <TableColumn fx:id="tn1" prefWidth="119.0" text="房间类型及数量" />
+                              <TableColumn fx:id="ic1" prefWidth="78.0" text="有无儿童" />
+                              <TableColumn fx:id="p1" prefWidth="54.0" text="价格" />
+                           </columns>
+                        </TableView>
+                        <Button layoutX="8.0" layoutY="434.0" mnemonicParsing="false" onAction="#delay" text="延迟入住" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+			  <Tab closable="false" onSelectionChanged="#showUnexecuted" text="未执行订单">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="table2" layoutX="8.0" layoutY="9.0" prefHeight="400.0" prefWidth="700.0">
+                           <columns>
+ 							  <TableColumn fx:id="od2" prefWidth="75.0" text="订单号" />
+                              <TableColumn fx:id="ui2" prefWidth="75.0" text="客户信息" />
+                              <TableColumn fx:id="os2" prefWidth="75.0" text="订单状态" />
+                              <TableColumn fx:id="la2" prefWidth="136.0" text="最晚订单执行时间" />
+                              <TableColumn fx:id="et2" prefWidth="84.0" text="入住时间" />
+                              <TableColumn fx:id="tn2" prefWidth="119.0" text="房间类型及数量" />
+                              <TableColumn fx:id="ic2" prefWidth="78.0" text="有无儿童" />
+                              <TableColumn fx:id="p2" prefWidth="57.0" text="价格" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab onSelectionChanged="#showExecuted" text="已执行订单">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="table3" layoutX="8.0" layoutY="9.0" prefHeight="400.0" prefWidth="700.0">
+                           <columns>
+                              <TableColumn fx:id="od3" prefWidth="75.0" text="订单号" />
+                              <TableColumn fx:id="ui3" prefWidth="75.0" text="客户信息" />
+                              <TableColumn fx:id="os3" prefWidth="75.0" text="订单状态" />
+                              <TableColumn fx:id="la3" prefWidth="136.0" text="最晚订单执行时间" />
+                              <TableColumn fx:id="et3" prefWidth="84.0" text="入住时间" />
+                              <TableColumn fx:id="tn3" prefWidth="119.0" text="房间类型及数量" />
+                              <TableColumn fx:id="ic3" prefWidth="78.0" text="有无儿童" />
+                              <TableColumn fx:id="p3" prefWidth="54.0" text="价格" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+             <Tab onSelectionChanged="#showAbnormal" text="异常订单">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="table4" layoutX="8.0" layoutY="9.0" prefHeight="400.0" prefWidth="700.0">
+                           <columns>
+                              <TableColumn fx:id="od4" prefWidth="75.0" text="订单号" />
+                              <TableColumn fx:id="ui4" prefWidth="75.0" text="客户信息" />
+                              <TableColumn fx:id="os4" prefWidth="75.0" text="订单状态" />
+                              <TableColumn fx:id="la4" prefWidth="136.0" text="最晚订单执行时间" />
+                              <TableColumn fx:id="et4" prefWidth="84.0" text="入住时间" />
+                              <TableColumn fx:id="tn4" prefWidth="119.0" text="房间类型及数量" />
+                              <TableColumn fx:id="ic4" prefWidth="78.0" text="有无儿童" />
+                              <TableColumn fx:id="p4" prefWidth="54.0" text="价格" />
+                           </columns>
+                        </TableView>
+                        <Button layoutX="8.0" layoutY="434.0" mnemonicParsing="false" onAction="#delay" text="延迟入住" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab onSelectionChanged="#showCancel" text="已撤销订单">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="table5" layoutX="8.0" layoutY="9.0" prefHeight="400.0" prefWidth="700.0">
+                           <columns>
+                              <TableColumn fx:id="od5" prefWidth="75.0" text="订单号" />
+                              <TableColumn fx:id="ui5" prefWidth="75.0" text="客户信息" />
+                              <TableColumn fx:id="os5" prefWidth="75.0" text="订单状态" />
+                              <TableColumn fx:id="la5" prefWidth="136.0" text="最晚订单执行时间" />
+                              <TableColumn fx:id="et5" prefWidth="84.0" text="入住时间" />
+                              <TableColumn fx:id="tn5" prefWidth="119.0" text="房间类型及数量" />
+                              <TableColumn fx:id="ic5" prefWidth="78.0" text="有无儿童" />
+                              <TableColumn fx:id="p5" prefWidth="54.0" text="价格" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
