@@ -419,10 +419,10 @@ public class DataRemoteObject extends UnicastRemoteObject implements UserBLServi
 	}
 
 	@Override
-	public void comprehensiveSort(List<HotelVo> list, List<Comparator<HotelVo>> comList, boolean[] Sort)
+	public void comprehensiveSort(List<HotelVo> list, boolean[] Sort)
 			throws RemoteException {
 		// TODO Auto-generated method stub
-		hotelblservice.comprehensiveSort(list, comList, Sort);
+		hotelblservice.comprehensiveSort(list, Sort);
 	}
 
 	@Override
