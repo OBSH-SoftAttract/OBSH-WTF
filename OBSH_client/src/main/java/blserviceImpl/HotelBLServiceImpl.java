@@ -1,5 +1,8 @@
 package blserviceImpl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +21,7 @@ public class HotelBLServiceImpl implements HotelBLService {
 
 	private HotelDao hoteldao;
 	private HotelroomDao hotelroomdao;
-	
+	private final double DefaultPrice = 10000000;	
 	private static int scoreCount=0;
 	
 	public HotelBLServiceImpl() {
@@ -26,198 +29,279 @@ public class HotelBLServiceImpl implements HotelBLService {
 		hotelroomdao=HotelroomDaoImpl.getInstance();
 	}
 
+	/**
+	 * 添加酒店方法实现
+	 * 酒店ID要与酒店工作人员一致 即4位
+	 */
 	@Override
 	public ResultMessage Addhotel(HotelVo hotelvo) {
 		String id = String.valueOf(hotelvo.getHotelID());
 		if (id.length() != 4)
 			return ResultMessage.FormatWrong;
-		if( hoteldao.addHotelPo(new HotelPo(hotelvo)))return ResultMessage.Success;
+		if (hoteldao.addHotelPo(new HotelPo(hotelvo)))
+			return ResultMessage.Success;
 		return ResultMessage.IDExsit;
 	}
 
-	@Override
-	public List<HotelPo> FilterByStar(int star, List<HotelPo> list) {
-		try{
-			for (int i = 0; i < list.size();i++) {
-			    if (list.get(i).getStar() != star)
-				    list.remove(i--);
-			}
-		}catch(NullPointerException e){
-			e.getStackTrace();
-		}
-       return list;
-	}
-
+	/**
+	 * 获取在一定地址商圈下的所有酒店信息
+	 */
 	@Override
 	public List<HotelPo> Views(String address, String commercialDistrict) {
-		return hoteldao.searchHotelByLocation(address + "+" + commercialDistrict);
+		List<HotelPo> list=hoteldao.searchHotelByLocation(address + "+" + commercialDistrict);
+		return list;
 	}
-
+	
 	@Override
-	public String ViewHotelDetail(int hotelid) {
-		HotelPo hotelpo = hoteldao.getHotel(hotelid);
-		String detail = hotelpo.getLocation() + "+"+hotelpo.getBriefInfo() + "+" +hotelpo.getServices();
-		
-		List<HotelroomPo> list=hotelroomdao.getHotelroomByHotelID(hotelid);
-		Map<String,Object> map=new HashMap<String, Object>();
-		
-		for(int i=0;i<list.size();i++){
-			if(!map.containsKey(list.get(i).getRoomType())){
-				map.put(list.get(i).getRoomType(), null);
-				detail=detail+"+"+list.get(i).getRoomType()+String.valueOf(list.get(i).getPrice());
-			}
-		}
-		
-		return detail;
-	}
-
-
 	public double getHotelMinPrice(int hotelid) {
-		List<HotelroomPo> list=hotelroomdao.getHotelroomByHotelID(hotelid);
-		double price=0;
-		try{
-			price=list.get(0).getPrice();
-			for(int i=1;i<list.size();i++){
-				if(list.get(i).getPrice()<price)
-					price=list.get(i).getPrice();
-			}
-		}catch(NullPointerException e){
-			e.getStackTrace();
+		HotelPo po = hoteldao.getHotel(hotelid);
+		double price = DefaultPrice;
+		String Rooms[] = po.getRoomInfo().split(";");
+
+		for (int i = 1; i < Rooms.length; i++) {
+			String r[] = Rooms[i].split("[+]");
+			if (Double.parseDouble(r[2]) < price && Integer.parseInt(r[1]) > 0)// 在价格符合的情况下需要房间个数足够
+				price = Double.parseDouble(r[2]);
 		}
 		return price;
 	}
-
 	
-
-	@Override
-	public List<HotelPo> FilterByPrice(double min, double max, List<HotelPo> list){
-		try{
-		      for(int i=0;i<list.size();i++){
-			     List<HotelroomPo> roomlist= hotelroomdao.getHotelroomByHotelID(list.get(i).getHotelID());
-			     double temp=max+1;
-			     for(int j=0;j<roomlist.size();j++){
-			    	 double p=roomlist.get(j).getPrice();
-			    	 if(p<=max&&p>=min&&p<temp)
-			    		 temp=p;
-			     }
-			     if(!(temp<max))
-			    	 list.remove(i--);
-		      }			
-		}catch(NullPointerException e){
-			e.getStackTrace();
-}
-		
-		return list;
-
-	}
-
-	@Override
-	public List<HotelPo> FilterByScore(double min, double max, List<HotelPo> list) {
-		try{
-		      for(int i=0;i<list.size();i++){
-		    	  double score=list.get(i).getScore();
-			    if(!(score<=max&&score>=min))
-			    	list.remove(i--);
-		      }			
-		}catch(NullPointerException e){
-			e.getStackTrace();
-}
-		
-		return list;
-	}
-
-	@Override
-	public List<HotelPo> FilterByRoomType(String type, List<HotelPo> list) {
-		
-        return null;
-	}
-
+	//根据酒店名称查找酒店
 	@Override
 	public HotelPo SearchByName(String hotel) {
 		return hoteldao.searchHotelByName(hotel);
 	}
 
+	
+	//根据酒店ID查找酒店 
 	@Override
 	public HotelPo SearchByID(int id) {
-		return hoteldao.getHotel(id);
+		HotelPo po = hoteldao.getHotel(id);
+		return po;
 	}
 	
+	// 按房间类型搜索
 	@Override
-	public List<HotelPo> SortByStar(List<HotelPo> list) {
-		for(int i=0;i<list.size();i++){
-			for(int j=1;j<list.size();j++){
-				if(list.get(i).getStar()<list.get(j).getStar()){
-					HotelPo temp=list.get(i);
-					list.set(i, list.get(j));
-					list.set(j, temp);
+	public List<HotelVo> FilterByType(String roomType, List<HotelVo> hotellist) {
+		if (!roomType.equals("不限")) {
+			for (int i = 0; i < hotellist.size(); i++) {
+				String rooms[] = hotellist.get(i).getRoomInfo().split(";");
+				boolean has = false;
+				for (int j = 0; j < rooms.length; j++) {
+					String temp[] = rooms[i].split("[+]");
+					if (temp[0].equals(roomType) && Integer.parseInt(temp[1]) > 0) {
+						has = true;
+						break;
+					}
 				}
+				if (!has)
+					hotellist.remove(i--);
+			}
+		}
+		return hotellist;
+	}
+	
+	// 按名称搜索
+	@Override
+	public List<HotelVo> FilterByName(String name, List<HotelVo> list) {
+		if (!name.equals("")) {
+			for (int i = 0; i < list.size(); i++) {
+				if (!list.get(i).getName().equals(name))
+					list.remove(i--);
 			}
 		}
 		return list;
 	}
-
+	
+	//按星级搜索
 	@Override
-	public List<HotelPo> SortByPrice(List<HotelPo> list) {
-		for(int i=0;i<list.size();i++){
-			for(int j=1;j<list.size();j++){
-				if(getHotelMinPrice(list.get(i).getHotelID())>
-						getHotelMinPrice(list.get(j).getHotelID())){
-					HotelPo temp=list.get(i);
-					list.set(i, list.get(j));
-					list.set(j, temp);
-				}
+	public List<HotelVo> FilterByStar(int hotelStar, List<HotelVo> hotellist) {
+		if (hotelStar != 5) {
+			for (int i = 0; i < hotellist.size(); i++) {
+				if (hotellist.get(i).getStar() <= hotelStar)
+					hotellist.remove(i--);
 			}
 		}
-		return list;
+		return hotellist;
 	}
+	
+	private Comparator<HotelVo> comparePrice = new Comparator<HotelVo>() {
+
+		@Override
+		public int compare(HotelVo o1, HotelVo o2) {
+			return o1.getMinPrice() <= o2.getMinPrice() ? 1 : -1;
+		}
+
+	};
+	
+	private Comparator<HotelVo> compareStar = new Comparator<HotelVo>() {
+
+		@Override
+		public int compare(HotelVo o1, HotelVo o2) {
+			return o1.getStar() >= o2.getStar() ? 1 : -1;
+		}
+
+	};
+	
+	private Comparator<HotelVo> compareScore = new Comparator<HotelVo>() {
+
+		@Override
+		public int compare(HotelVo o1, HotelVo o2) {
+			return o1.getScore() >= o2.getScore() ? 1 : -1;
+		}
+
+	};
 
 	@Override
-	public List<HotelPo> SortByScore(List<HotelPo> list){
-		for(int i=0;i<list.size();i++){
-			for(int j=1;j<list.size();j++){
-				if(list.get(i).getScore()<list.get(j).getScore()){
-					HotelPo temp=list.get(i);
-					list.set(i, list.get(j));
-					list.set(j, temp);
+	public void comprehensiveSort(List<HotelVo> list, boolean Sort[]) {
+       List<Comparator<HotelVo>> comList=new ArrayList<Comparator<HotelVo>>();
+		if (Sort[0])
+			comList.add(comparePrice);
+		if (Sort[1])
+			comList.add(compareStar);
+		if (Sort[2])
+			comList.add(compareScore);
+
+		if (comList == null)
+			return;
+		Comparator<HotelVo> cmp = new Comparator<HotelVo>() {
+
+			@Override
+			public int compare(HotelVo o1, HotelVo o2) {
+				for (Comparator<HotelVo> comparator : comList) {
+					if (comparator.compare(o1, o2) > 0) {
+						return 1;
+					} else if (comparator.compare(o1, o2) < 0) {
+						return -1;
+					}
 				}
+				return 0;
 			}
-		}
-		return list;
+
+		};
+		Collections.sort(list, cmp);
 	}
-
-
+	
+	//评价酒店
 	@Override
-	public List<HotelroomPo> SortByTime(List<HotelroomPo> list){
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResultMessage AddAssess(int score,String comment,int hotelID){
-		HotelPo hotelpo=hoteldao.getHotel(hotelID);
-		double prescore=hotelpo.getScore();
-		if(score!=-1){
-			prescore*=scoreCount++;
-			prescore+=score;
-			hotelpo.setScore(prescore/scoreCount);
+	public ResultMessage AddAssess(int score, String comment, int hotelID) {
+		HotelPo hotelpo = hoteldao.getHotel(hotelID);
+		double prescore = hotelpo.getScore();
+		if (score != -1) {
+			prescore *= scoreCount++;
+			prescore += score;
+			hotelpo.setScore(prescore / scoreCount);
 		}
-		if(null!=comment)
+		if (null != comment)
 			hotelpo.addSummary(comment);
-		if(hoteldao.updateHotel(hotelpo)) return ResultMessage.UpdateSuccess;
+		if (hoteldao.updateHotel(hotelpo))
+			return ResultMessage.UpdateSuccess;
 		return ResultMessage.UpdateFail;
 	}
-
+	
+	//获得酒店房间价格
 	@Override
-	public double getHotelRoomPriceByType(String type, String hotelname){
-		String rooms[]=SearchByName(hotelname).getRoomInfo().split(";");
-		
-		for(int i=0;i<rooms.length;i++){
-			String s[]=rooms[i].split("+");
-			if(s[0].equals(type)){
+	public double getHotelRoomPriceByType(String type, String hotelname) {
+		String rooms[] = SearchByName(hotelname).getRoomInfo().split(";");
+
+		for (int i = 0; i < rooms.length; i++) {
+			String s[] = rooms[i].split("+");
+			if (s[0].equals(type)) {
 				return Double.parseDouble(s[2]);
 			}
 		}
 		return 0;
+	}
+	
+	//胡渣渣版本增加酒店房间
+	@Override
+	public void AddRoom(int hotelid, int num, String type, double price) {
+		HotelPo hotel = hoteldao.getHotel(hotelid);
+		String roomInfo = hotel.getRoomInfo();
+		String Rooms[] = roomInfo.split(";");
+
+		boolean newType = true;
+		for (int i = 0; i < Rooms.length; i++) {
+			String r[] = Rooms[i].split("[+]");
+			if (r[0].equals(type)) {
+				newType = false;
+				r[1] = String.valueOf(Integer.parseInt(r[1]) + num);
+				Rooms[i] = r[0] + "+" + r[1] + "+" + r[2];
+				break;
+			}
+		}
+
+		String res = "";
+		for (int i = 0; i < Rooms.length; i++) {
+			res = res + Rooms[i] + ";";
+		}
+		if (newType) {
+			res = res + type + "+" + String.valueOf(num) + "+" + String.valueOf(price) + ";";
+		}
+
+		res = res.substring(0, res.length() - 1);
+		hotel.setRoomInfo(res);
+		hoteldao.updateHotel(hotel);
+	}
+	
+	@Override
+	public void ModifyPrice(int hotelID, String type, double price) {
+		HotelPo hotel = hoteldao.getHotel(hotelID);
+		String roomInfo = hotel.getRoomInfo();
+		String Rooms[] = roomInfo.split(";");
+
+		for (int i = 0; i < Rooms.length; i++) {
+			String r[] = Rooms[i].split("[+]");
+			if (r[0].equals(type)) {
+				r[2] = String.valueOf(price);
+				Rooms[i] = r[0] + "+" + r[1] + "+" + r[2];
+				break;
+			}
+		}
+
+		String res = "";
+		for (int i = 0; i < Rooms.length; i++) {
+			res = res + Rooms[i] + ";";
+		}
+
+		res = res.substring(0, res.length() - 1);
+		hotel.setRoomInfo(res);
+		hoteldao.updateHotel(hotel);
+	}
+
+	@Override
+	public void ModifyRoomNumByOrder(int hotelID, int num, String type) {
+		HotelPo hotel = hoteldao.getHotel(hotelID);
+		String roomInfo = hotel.getRoomInfo();
+		String Rooms[] = roomInfo.split(";");
+
+		for (int i = 0; i < Rooms.length; i++) {
+			String r[] = Rooms[i].split("[+]");
+			if (r[0].equals(type)) {
+				r[1] = String.valueOf(Integer.parseInt(r[1]) - num);
+				Rooms[i] = r[0] + "+" + r[1] + "+" + r[2];
+				break;
+			}
+		}
+
+		String res = "";
+		for (int i = 0; i < Rooms.length; i++) {
+			res = res + Rooms[i] + ";";
+		}
+
+		res = res.substring(0, res.length() - 1);
+		hotel.setRoomInfo(res);
+		hoteldao.updateHotel(hotel);
+	}
+	
+	@Override
+	public ResultMessage ModifyHotelMessage(HotelVo vo) {
+		HotelPo po = new HotelPo(vo);
+		System.out.println(po.getBriefInfo());
+		if( hoteldao.updateHotel(po))
+			return ResultMessage.UpdateSuccess;
+		return ResultMessage.UpdateFail;
+	
 	}
 
 

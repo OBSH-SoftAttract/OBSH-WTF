@@ -1,11 +1,12 @@
 package blservice;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.Date;
 
 import po.MemberPo;
 
 
-public interface MemberBLService {
+public interface MemberBLService extends Remote{
 	
 	/**
 	 * 

@@ -1,0 +1,14 @@
+#Whitestar{
+	-fx-background-image:url("'/STAR.png"); 
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%;
+	-fx-border-color:white;
+	-fx-border-width:0;
+}
+#Yellowstar{
+	-fx-background-image:url("'/yellowstar.png"); 
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 100% 100%;
+	-fx-border-color:white;
+	-fx-border-width:0;
+}

@@ -11,12 +11,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import presentation.controller.UserViewControllerImpl;
 import vo.OrderVo;
 
 public class HistoryList {	
-	private UserViewControllerService controller;
+	private UserViewControllerImpl controller;
 	
-	public HistoryList(UserViewControllerService controller){
+	public HistoryList(UserViewControllerImpl controller){
 		this.controller=controller;
 	}
 	
@@ -35,9 +36,14 @@ public class HistoryList {
 			int userID=controller.GetPresentUserInfo().getID();
 			List<OrderVo> orderList=controller.getAllHistoryOrdersByUserID(userID);
 		     for(OrderVo vo:orderList){
-		    	 if(vo.getOrderState()==state||(state==0&&vo.getOrderState()==1)){
-		    		 int hotelID=vo.getHotelID();
-		    		 String name=controller.getHotelNameByHotelID(hotelID);
+		    	 if(vo.getOrderState()==state||(state==0&&vo.getOrderState()==1||state==-1)){
+		    		 String name="";
+		    		 if(state!=-1){
+		    			 int hotelID=vo.getHotelID();
+		    			 name=controller.getHotelNameByHotelID(hotelID);
+		    		 }
+		    		 else
+		    			 name=vo.getOrderID();		    		
 		    		 String date=vo.getStartTime().toString().substring(0, 10);
 		    		 String OrderState=State[vo.getOrderState()];
 		    		 list.add(new History(name,date,OrderState));
@@ -52,6 +58,7 @@ public class HistoryList {
 		//酒店列表
 		//所有命名后面添加tc表示类型为tablecolumn
 		TableColumn hotelnametc = new TableColumn("酒店名称");
+		if(state==-1)hotelnametc.setText("订单号");
 		hotelnametc.setMinWidth(150);
 		hotelnametc.setCellValueFactory(
 	            new PropertyValueFactory<>("hotelname"));

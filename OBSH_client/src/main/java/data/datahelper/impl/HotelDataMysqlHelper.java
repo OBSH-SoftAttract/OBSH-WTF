@@ -48,7 +48,10 @@ public class HotelDataMysqlHelper implements HotelDataHelper {
 	            double score = ret.getDouble(8);
 	            String briefInfo = ret.getString(9);
 	            int scoreCount = ret.getInt(10);
-	        	HotelPo hotelPo=new HotelPo(id, hotelName, startLevel, location, listSummary, service, roomInfo, score, briefInfo,scoreCount); 
+	            String companies = ret.getString(11);
+	            /*if(companies.equals(""))
+	            	companies = "+";*/
+	        	HotelPo hotelPo=new HotelPo(id, hotelName, startLevel, location, listSummary, service, roomInfo, score, briefInfo,scoreCount,companies); 
 	            map.put(id, hotelPo);
 	        }//显示数据  
 	        ret.close();  
@@ -67,17 +70,22 @@ public class HotelDataMysqlHelper implements HotelDataHelper {
 		while(iterator.hasNext()){
 			Map.Entry<Integer, HotelPo> entry = iterator.next();
 			HotelPo hotelPo = entry.getValue();
-
+			String result ="";
+			for(String s:hotelPo.getSummary()) {
+				result = result+s+",";
+			}
+			result = result.substring(0,result.length()-1);
 			sql = "update hotel set hotelname = '"+hotelPo.getName()+
 					"',starlevel = "+hotelPo.getStar()+
 					",location = '"+hotelPo.getLocation()+
-					"',summary = '"+hotelPo.getSummary()+
+					"',summary = '"+result+
 					"',services = '"+hotelPo.getServices()+
 					"',roominfo = '"+hotelPo.getRoomInfo()+
 					"',score = "+hotelPo.getScore()+
 					",briefInfo = '"+hotelPo.getBriefInfo()+
-					"'scoreCount = "+hotelPo.getScoreCount()+
-					" where id = "+hotelPo.getHotelID();//SQL语句 
+					"',scoreCount = "+hotelPo.getScoreCount()+
+					",companies = '"+hotelPo.getCompanies()+
+					"' where id = "+hotelPo.getHotelID();//SQL语句 
 			db1 = new JDBCHelper(sql);//创建DBHelper对象  
 			try {
 				sta = db1.pst.executeUpdate(sql);
@@ -103,7 +111,8 @@ public class HotelDataMysqlHelper implements HotelDataHelper {
 				"','"+hotelPo.getRoomInfo()+
 				"',"+hotelPo.getScore()+
 				",'"+hotelPo.getBriefInfo()+
-				"',"+hotelPo.getScoreCount()+")";
+				"',"+hotelPo.getScoreCount()+
+				",'"+hotelPo.getCompanies()+"')";
 		db1 = new JDBCHelper(sql);//创建DBHelper对象  
 		try {
 			sta = db1.pst.executeUpdate(sql);

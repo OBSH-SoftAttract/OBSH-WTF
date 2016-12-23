@@ -1,20 +1,25 @@
 package po;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import vo.HotelVo;
 
-public class HotelPo {
-	private int hotelID;
-	private String name;
-	private int star;
-	private String briefInfo;  //简介
-	private String location;  //地址+商圈
-	private List<String> summary; //评价
-	private String services;  //服务设施
-	private String roomInfo;//房间类型+个数 中间用分号区分
-	private static double score=0;
-	private int scoreCount;
+public class HotelPo implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	private int hotelID=0;
+	private String name="";
+	private int star=0;
+	private String briefInfo="";  //简介
+	private String location="";  //地址+商圈
+	private List<String> summary=new ArrayList<String>();//评价
+	private String services="";//服务设施
+	private String roomInfo="";//房间类型+个数+价格  中间用分号区分
+	private double score=0;
+    private int scoreCount=0;
+    private String Companies="";
 	
 	public HotelPo(HotelVo hotelvo) {
 		this.hotelID = hotelvo.getHotelID();
@@ -24,22 +29,33 @@ public class HotelPo {
 		this.summary = hotelvo.getSummary();
 		this.services = hotelvo.getServices();
 		this.roomInfo =hotelvo.getRoomInfo();
+		this.briefInfo=hotelvo.getBriefInfo();
 		this.scoreCount = hotelvo.getScoreCount();
-		HotelPo.score=hotelvo.getScore();
+		this.score=hotelvo.getScore();
+		this.Companies=hotelvo.getCompanies();
 	}
 
 	public HotelPo(int hotelID, String name, int star, String location, List<String> summary, String services,
-			String roominfo,double s,String br,int sc) {
+			String roomInfo,double score,String briefInfo,int scoreCount,String companies) {
 		this.hotelID = hotelID;
 		this.name = name;
 		this.star = star;
 		this.location = location;
 		this.summary = summary;
 		this.services = services;
-		this.roomInfo = roominfo;
-		HotelPo.score=s;
-		this.briefInfo=br;
-		this.scoreCount = sc;
+		this.roomInfo = roomInfo;
+		this.score=score;
+		this.briefInfo=briefInfo;
+		this.scoreCount = scoreCount;
+		this.Companies=companies;
+	}
+
+	public String getCompanies() {
+		return Companies;
+	}
+
+	public void setCompanies(String companies) {
+		Companies = companies;
 	}
 
 	public String getBriefInfo() {
@@ -115,7 +131,7 @@ public class HotelPo {
 	}
 
 	public void setScore(double score) {
-		HotelPo.score = score;
+		this.score = score;
 	}
 
 	public int getScoreCount() {

@@ -1,0 +1,16 @@
+package server_runner;
+
+import java.io.Serializable;
+
+import server_rmi.RemoteHelper;
+
+public class Runner implements Serializable {
+	
+	public Runner() {
+		new RemoteHelper();
+	}
+	
+	public static void main(String[] args) {
+		new Runner();
+	}
+}

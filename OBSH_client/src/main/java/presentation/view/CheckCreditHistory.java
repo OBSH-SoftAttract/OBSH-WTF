@@ -10,13 +10,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import presentation.controller.UserViewControllerImpl;
 import vo.CreditVo;
 
 public class CheckCreditHistory {
 	
-	UserViewControllerService controller;
+	private UserViewControllerImpl controller;
 	
-	public  CheckCreditHistory(UserViewControllerService controller){
+	public  CheckCreditHistory(UserViewControllerImpl controller){
 		this.controller=controller;
 	}
 	

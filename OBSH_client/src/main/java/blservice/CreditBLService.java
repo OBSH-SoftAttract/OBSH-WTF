@@ -1,10 +1,11 @@
 package blservice;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import po.CreditPo;
 
-public interface CreditBLService {
+public interface CreditBLService extends Remote{
 	
 	/**
 	 * 

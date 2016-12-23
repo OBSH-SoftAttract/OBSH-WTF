@@ -1,5 +1,6 @@
 package po;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -12,19 +13,21 @@ import java.sql.Timestamp;
  * @author 毕潇晗
  */
 
-public class CreditPo {
+public class CreditPo implements Serializable{
 	
-	private int userID;
+	private static final long serialVersionUID = 1L;
+
+	private int userID=0;
 	
-	private String orderID;
+	private String orderID="";
 	
-	private Timestamp  time;
+	private Timestamp  time=null;
 	
-	private int action;
+	private int action=0;
 	
-	private String CreditChange;
+	private String CreditChange="";
 	
-	private double CreditResult;
+	private double CreditResult=0;
 	
 	public CreditPo(){
 		super();

@@ -17,18 +17,16 @@
                      <children>
                         <TableView fx:id="table1" layoutX="7.0" layoutY="8.0" prefHeight="400.0" prefWidth="700.0">
                            <columns>
-                              <TableColumn fx:id="tp1" prefWidth="95.0" text="房间类型" />
-                              <TableColumn fx:id="ri1" prefWidth="72.0" text="房间号" />
-                              <TableColumn fx:id="p1" prefWidth="88.0" text="房间价格" />
-                              <TableColumn fx:id="ud1" prefWidth="73.0" text="占用情况" />
-                              <TableColumn fx:id="et1" prefWidth="116.0" text="入住时间" />
-                              <TableColumn fx:id="lt1" prefWidth="121.0" text="预计退房时间" />
-                              <TableColumn fx:id="at1" prefWidth="134.0" text="实际退房时间" />
+                              <TableColumn fx:id="tp1" prefWidth="87.0" text="房间类型" />
+                              <TableColumn fx:id="ri1" prefWidth="68.0" text="房间号" />
+                              <TableColumn fx:id="p1" prefWidth="74.0" text="房间价格" />
+                              <TableColumn fx:id="ud1" prefWidth="74.0" text="占用情况" />
+                              <TableColumn fx:id="et1" prefWidth="177.0" text="入住时间" />
+                              <TableColumn fx:id="lt1" prefWidth="219.0" text="预计退房时间" />
                            </columns>
                         </TableView>
-                        <Button layoutX="7.0" layoutY="426.0" mnemonicParsing="false" onAction="#checkIn" text="入住" />
-                        <Button layoutX="78.0" layoutY="426.0" mnemonicParsing="false" onAction="#checkOut" text="退房" />
-                        <Button layoutX="626.0" layoutY="426.0" mnemonicParsing="false" onAction="#enterRooms" text="录入客房" />
+                        <Button layoutX="7.0" layoutY="426.0" mnemonicParsing="false" onAction="#checkIn1" text="入住" />
+                        <Button layoutX="78.0" layoutY="426.0" mnemonicParsing="false" onAction="#checkOut1" text="退房" />
                      </children>
                   </AnchorPane>
                </content>
@@ -37,17 +35,18 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
- 						<TableView fx:id="table2" layoutX="7.0" layoutY="8.0" prefHeight="422.0" prefWidth="691.0">
+ 						<TableView fx:id="table2" layoutX="7.0" layoutY="8.0" prefHeight="400.0" prefWidth="700.0">
                           <columns>
-                              <TableColumn fx:id="tp2" prefWidth="95.0" text="房间类型" />
-                              <TableColumn fx:id="ri2" prefWidth="72.0" text="房间号" />
-                              <TableColumn fx:id="p2" prefWidth="88.0" text="房间价格" />
-                              <TableColumn fx:id="ud2" prefWidth="73.0" text="占用情况" />
-                              <TableColumn fx:id="et2" prefWidth="109.0" text="入住时间" />
-                              <TableColumn fx:id="lt2" prefWidth="117.0" text="预计退房时间" />
-                              <TableColumn fx:id="at2" prefWidth="133.0" text="实际退房时间" />
+                              <TableColumn fx:id="tp2" prefWidth="87.0" text="房间类型" />
+                              <TableColumn fx:id="ri2" prefWidth="68.0" text="房间号" />
+                              <TableColumn fx:id="p2" prefWidth="74.0" text="房间价格" />
+                              <TableColumn fx:id="ud2" prefWidth="74.0" text="占用情况" />
+                              <TableColumn fx:id="et2" prefWidth="177.0" text="入住时间" />
+                              <TableColumn fx:id="lt2" prefWidth="219.0" text="预计退房时间" />
                            </columns>
                         </TableView>
+                        <Button layoutX="7.0" layoutY="426.0" mnemonicParsing="false" onAction="#checkIn2" text="入住" />
+                        <Button layoutX="78.0" layoutY="426.0" mnemonicParsing="false" onAction="#checkOut2" text="退房" />
                      </children>
                   </AnchorPane>
                </content>
@@ -56,41 +55,64 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="493.0" prefWidth="707.0">
                      <children>
-  						<TableView fx:id="table3" layoutX="7.0" layoutY="8.0" prefHeight="422.0" prefWidth="691.0">
+  						<TableView fx:id="table3" layoutX="7.0" layoutY="8.0" prefHeight="400.0" prefWidth="700.0">
                           <columns>
-                              <TableColumn fx:id="tp3" prefWidth="95.0" text="房间类型" />
-                              <TableColumn fx:id="ri3" prefWidth="72.0" text="房间号" />
-                              <TableColumn fx:id="p3" prefWidth="88.0" text="房间价格" />
-                              <TableColumn fx:id="ud3" prefWidth="73.0" text="占用情况" />
-                              <TableColumn fx:id="et3" prefWidth="109.0" text="入住时间" />
-                              <TableColumn fx:id="lt3" prefWidth="117.0" text="预计退房时间" />
-                              <TableColumn fx:id="at3" prefWidth="133.0" text="实际退房时间" />
+                              <TableColumn fx:id="tp3" prefWidth="87.0" text="房间类型" />
+                              <TableColumn fx:id="ri3" prefWidth="68.0" text="房间号" />
+                              <TableColumn fx:id="p3" prefWidth="74.0" text="房间价格" />
+                              <TableColumn fx:id="ud3" prefWidth="74.0" text="占用情况" />
+                              <TableColumn fx:id="et3" prefWidth="177.0" text="入住时间" />
+                              <TableColumn fx:id="lt3" prefWidth="219.0" text="预计退房时间" />
                            </columns>
                         </TableView>
+                        <Button layoutX="7.0" layoutY="426.0" mnemonicParsing="false" onAction="#checkIn3" text="入住" />
+                        <Button layoutX="78.0" layoutY="426.0" mnemonicParsing="false" onAction="#checkOut3" text="退房" />
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab closable="false" onSelectionChanged="#showTwice" text="双人间">
+            <Tab closable="false" onSelectionChanged="#showTwice" text="家庭房">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
- 						 <TableView fx:id="table4" layoutX="7.0" layoutY="8.0" prefHeight="422.0" prefWidth="691.0">
+ 						 <TableView fx:id="table4" layoutX="7.0" layoutY="8.0" prefHeight="400.0" prefWidth="700.0">
                           <columns>
-                              <TableColumn fx:id="tp4" prefWidth="95.0" text="房间类型" />
-                              <TableColumn fx:id="ri4" prefWidth="72.0" text="房间号" />
-                              <TableColumn fx:id="p4" prefWidth="88.0" text="房间价格" />
-                              <TableColumn fx:id="ud4" prefWidth="73.0" text="占用情况" />
-                              <TableColumn fx:id="et4" prefWidth="109.0" text="入住时间" />
-                              <TableColumn fx:id="lt4" prefWidth="117.0" text="预计退房时间" />
-                              <TableColumn fx:id="at4" prefWidth="133.0" text="实际退房时间" />
+                              <TableColumn fx:id="tp4" prefWidth="87.0" text="房间类型" />
+                              <TableColumn fx:id="ri4" prefWidth="68.0" text="房间号" />
+                              <TableColumn fx:id="p4" prefWidth="74.0" text="房间价格" />
+                              <TableColumn fx:id="ud4" prefWidth="74.0" text="占用情况" />
+                              <TableColumn fx:id="et4" prefWidth="177.0" text="入住时间" />
+                              <TableColumn fx:id="lt4" prefWidth="219.0" text="预计退房时间" />
                            </columns>
                         </TableView>
+                        <Button layoutX="7.0" layoutY="426.0" mnemonicParsing="false" onAction="#checkIn4" text="入住" />
+                        <Button layoutX="78.0" layoutY="426.0" mnemonicParsing="false" onAction="#checkOut4" text="退房" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab closable="false" onSelectionChanged="#showTwice" text="豪华房">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="table41" layoutX="7.0" layoutY="8.0" prefHeight="400.0" prefWidth="700.0">
+                           <columns>
+                              <TableColumn fx:id="tp41" prefWidth="87.0" text="房间类型" />
+                              <TableColumn fx:id="ri41" prefWidth="68.0" text="房间号" />
+                              <TableColumn fx:id="p41" prefWidth="74.0" text="房间价格" />
+                              <TableColumn fx:id="ud41" prefWidth="74.0" text="占用情况" />
+                              <TableColumn fx:id="et41" prefWidth="177.0" text="入住时间" />
+                              <TableColumn fx:id="lt41" prefWidth="219.0" text="预计退房时间" />
+                           </columns>
+                        </TableView>
+                        <Button layoutX="7.0" layoutY="426.0" mnemonicParsing="false" onAction="#checkIn4" text="入住" />
+                        <Button layoutX="78.0" layoutY="426.0" mnemonicParsing="false" onAction="#checkOut4" text="退房" />
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
          </tabs>
       </TabPane>
+      <Button layoutX="637.0" layoutY="476.0" mnemonicParsing="false" onAction="#enterRooms" text="录入客房" />
    </children>
 </AnchorPane>

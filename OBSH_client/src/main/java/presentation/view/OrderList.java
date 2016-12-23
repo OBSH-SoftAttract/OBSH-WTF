@@ -17,18 +17,18 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
+import presentation.controller.UserViewControllerImpl;
 import vo.OrderVo;
 
 public class OrderList extends HBox {
 
 	private final String State[] = { "未执行订单", "已执行订单", "异常订单", "已撤销订单" };
 
-	List<Order> orderList;
-	UserViewControllerService controller;
+	List<Order> orderList = new ArrayList<Order>();
+	private UserViewControllerImpl controller;
 	List<OrderVo> orderVoList;
 
-	public OrderList(List<OrderVo> list, UserViewControllerService controller) {
+	public OrderList(List<OrderVo> list, UserViewControllerImpl controller) {
 		this.controller = controller;
 		this.orderVoList = list;
 	}

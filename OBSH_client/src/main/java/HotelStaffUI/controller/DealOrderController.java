@@ -1,6 +1,14 @@
 package HotelStaffUI.controller;
 
+import java.rmi.RemoteException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import HotelStaffUI.controller.RoomMessageController.Room;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,8 +30,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import presentation.controller.UserViewControllerImpl;
+import vo.HotelroomVo;
+import vo.OrderVo;
 
 public class DealOrderController {
+	
+	private UserViewControllerImpl controller = new UserViewControllerImpl();
 	
 	@FXML
 	private Button basic;
@@ -73,6 +86,8 @@ public class DealOrderController {
 	@FXML
 	private TableColumn od5,ui5,os5,la5,et5,tn5,ic5,p5;  //撤销
 	
+	private List<Order> orderlist;
+	
 	/**
 	 * 初始化函数
 	 * 初始化列表全为空
@@ -82,7 +97,7 @@ public class DealOrderController {
 	 * 就是说我现在在initialize加的内容是提供给你复制粘贴的 
 	 * 真正打开后的监听在tableview里
 	 */
-	@FXML
+	/*@FXML
 	private void initialize() {
 		final ObservableList<Order> data = FXCollections.observableArrayList(
 				new Order("","","","","","","",0));
@@ -220,8 +235,9 @@ public class DealOrderController {
                 new PropertyValueFactory<>("price")
             );
 		table5.setItems(data);
-	}
+	}*/
 	
+	@SuppressWarnings("unchecked")
 	@FXML
 	private void showAllType() {
 		/**
@@ -232,26 +248,303 @@ public class DealOrderController {
 		 * 我还不知道为什么 
 		 * 容我再去问问
 		 */
+		
+		orderlist = new ArrayList<Order>();
+		try {
+			int hotelID = controller.getUserID();
+			List<OrderVo> allorders;
+			
+			allorders = controller.getOrdersByHotelID(hotelID);
+			for (OrderVo vo : allorders) {
+				String orderId = vo.getOrderID();
+				String info = String.valueOf(vo.getUserID());
+				int state = vo.getOrderState();
+				/**
+				 * 这里的两个转化方法是不对的 
+				 * 想以后统一一下
+				 */
+				String latest = String.valueOf(vo.getLastTime());
+				String enter = vo.getStartTime().toString();
+				String typeNum = vo.getRoomInfo();
+				boolean isChild = vo.isChild();
+				double price = vo.getPrice();
+
+				orderlist.add(new Order(orderId, info, state, latest, enter, typeNum, isChild, price));
+				
+			}
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		final ObservableList<Order> data = FXCollections.observableArrayList(orderlist);
+		
+        od1.setCellValueFactory(
+                new PropertyValueFactory<>("orderId")
+            );
+        ui1.setCellValueFactory(
+                new PropertyValueFactory<>("info")
+            );
+        os1.setCellValueFactory(
+                new PropertyValueFactory<>("state")
+            );
+        la1.setCellValueFactory(
+                new PropertyValueFactory<>("latest")
+            );
+        et1.setCellValueFactory(
+                new PropertyValueFactory<>("enter")
+            );
+        tn1.setCellValueFactory(
+                new PropertyValueFactory<>("typeNum")
+            );
+        ic1.setCellValueFactory(
+                new PropertyValueFactory<>("isChild")
+            );
+        p1.setCellValueFactory(
+                new PropertyValueFactory<>("price")
+            );
+		table1.setItems(data);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@FXML
 	private void showUnexecuted() {
-		
+		orderlist = new ArrayList<Order>();
+		try {
+			int hotelID = controller.getUserID();
+			List<OrderVo> allorders;
+			
+			allorders = controller.getOrdersByState(0, hotelID);
+			for (OrderVo vo : allorders) {
+				String orderId = vo.getOrderID();
+				String info = String.valueOf(vo.getUserID());
+				int state = vo.getOrderState();
+				/**
+				 * 这里的两个转化方法是不对的 
+				 * 想以后统一一下
+				 */
+				String latest = String.valueOf(vo.getLastTime());
+				String enter = vo.getStartTime().toString();
+				String typeNum = vo.getRoomInfo();
+				boolean isChild = vo.isChild();
+				double price = vo.getPrice();
+
+				orderlist.add(new Order(orderId, info, state, latest, enter, typeNum, isChild, price));
+				
+			}
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		final ObservableList<Order> data = FXCollections.observableArrayList(orderlist);
+        od2.setCellValueFactory(
+                new PropertyValueFactory<>("orderId")
+            );
+        ui2.setCellValueFactory(
+                new PropertyValueFactory<>("info")
+            );
+        os2.setCellValueFactory(
+                new PropertyValueFactory<>("state")
+            );
+        la2.setCellValueFactory(
+                new PropertyValueFactory<>("latest")
+            );
+        et2.setCellValueFactory(
+                new PropertyValueFactory<>("enter")
+            );
+        tn2.setCellValueFactory(
+                new PropertyValueFactory<>("typeNum")
+            );
+        ic2.setCellValueFactory(
+                new PropertyValueFactory<>("isChild")
+            );
+        p2.setCellValueFactory(
+                new PropertyValueFactory<>("price")
+            );
+		table2.setItems(data);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@FXML
 	private void showExecuted() {
-		
+		orderlist = new ArrayList<Order>();
+		try {
+			int hotelID = controller.getUserID();
+			List<OrderVo> allorders;
+			
+			allorders = controller.getOrdersByState(1, hotelID);
+			for (OrderVo vo : allorders) {
+				String orderId = vo.getOrderID();
+				String info = String.valueOf(vo.getUserID());
+				int state = vo.getOrderState();
+				/**
+				 * 这里的两个转化方法是不对的 
+				 * 想以后统一一下
+				 */
+				String latest = String.valueOf(vo.getLastTime());
+				String enter = vo.getStartTime().toString();
+				String typeNum = vo.getRoomInfo();
+				boolean isChild = vo.isChild();
+				double price = vo.getPrice();
+
+				orderlist.add(new Order(orderId, info, state, latest, enter, typeNum, isChild, price));
+				
+			}
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		final ObservableList<Order> data = FXCollections.observableArrayList(orderlist);
+        od3.setCellValueFactory(
+                new PropertyValueFactory<>("orderId")
+            );
+        ui3.setCellValueFactory(
+                new PropertyValueFactory<>("info")
+            );
+        os3.setCellValueFactory(
+                new PropertyValueFactory<>("state")
+            );
+        la3.setCellValueFactory(
+                new PropertyValueFactory<>("latest")
+            );
+        et3.setCellValueFactory(
+                new PropertyValueFactory<>("enter")
+            );
+        tn3.setCellValueFactory(
+                new PropertyValueFactory<>("typeNum")
+            );
+        ic3.setCellValueFactory(
+                new PropertyValueFactory<>("isChild")
+            );
+        p3.setCellValueFactory(
+                new PropertyValueFactory<>("price")
+            );
+		table3.setItems(data);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@FXML
 	private void showAbnormal() {
-		
+		orderlist = new ArrayList<Order>();
+		try {
+			int hotelID = controller.getUserID();
+			List<OrderVo> allorders;
+			
+			allorders = controller.getOrdersByState(2, hotelID);
+			for (OrderVo vo : allorders) {
+				String orderId = vo.getOrderID();
+				String info = String.valueOf(vo.getUserID());
+				int state = vo.getOrderState();
+				/**
+				 * 这里的两个转化方法是不对的 
+				 * 想以后统一一下
+				 */
+				String latest = String.valueOf(vo.getLastTime());
+				String enter = vo.getStartTime().toString();
+				String typeNum = vo.getRoomInfo();
+				boolean isChild = vo.isChild();
+				double price = vo.getPrice();
+
+				orderlist.add(new Order(orderId, info, state, latest, enter, typeNum, isChild, price));
+				
+			}
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		final ObservableList<Order> data = FXCollections.observableArrayList(orderlist);
+        od4.setCellValueFactory(
+                new PropertyValueFactory<>("orderId")
+            );
+        ui4.setCellValueFactory(
+                new PropertyValueFactory<>("info")
+            );
+        os4.setCellValueFactory(
+                new PropertyValueFactory<>("state")
+            );
+        la4.setCellValueFactory(
+                new PropertyValueFactory<>("latest")
+            );
+        et4.setCellValueFactory(
+                new PropertyValueFactory<>("enter")
+            );
+        tn4.setCellValueFactory(
+                new PropertyValueFactory<>("typeNum")
+            );
+        ic4.setCellValueFactory(
+                new PropertyValueFactory<>("isChild")
+            );
+        p4.setCellValueFactory(
+                new PropertyValueFactory<>("price")
+            );
+		table4.setItems(data);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@FXML
 	private void showCancel() {
-		
+		orderlist = new ArrayList<Order>();
+		try {
+			int hotelID = controller.getUserID();
+			List<OrderVo> allorders;
+			
+			allorders = controller.getOrdersByState(3, hotelID);
+			for (OrderVo vo : allorders) {
+				String orderId = vo.getOrderID();
+				String info = String.valueOf(vo.getUserID());
+				int state = vo.getOrderState();
+				/**
+				 * 这里的两个转化方法是不对的 
+				 * 想以后统一一下
+				 */
+				String latest = String.valueOf(vo.getLastTime());
+				String enter = vo.getStartTime().toString();
+				String typeNum = vo.getRoomInfo();
+				boolean isChild = vo.isChild();
+				double price = vo.getPrice();
+
+				orderlist.add(new Order(orderId, info, state, latest, enter, typeNum, isChild, price));
+				
+			}
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		final ObservableList<Order> data = FXCollections.observableArrayList(orderlist);
+        od5.setCellValueFactory(
+                new PropertyValueFactory<>("orderId")
+            );
+        ui5.setCellValueFactory(
+                new PropertyValueFactory<>("info")
+            );
+        os5.setCellValueFactory(
+                new PropertyValueFactory<>("state")
+            );
+        la5.setCellValueFactory(
+                new PropertyValueFactory<>("latest")
+            );
+        et5.setCellValueFactory(
+                new PropertyValueFactory<>("enter")
+            );
+        tn5.setCellValueFactory(
+                new PropertyValueFactory<>("typeNum")
+            );
+        ic5.setCellValueFactory(
+                new PropertyValueFactory<>("isChild")
+            );
+        p5.setCellValueFactory(
+                new PropertyValueFactory<>("price")
+            );
+		table5.setItems(data);
 	}
 	
 	@FXML 
@@ -304,21 +597,21 @@ public class DealOrderController {
 	public static class Order {
 		private final SimpleStringProperty orderId;
 		private final SimpleStringProperty info;
-		private final SimpleStringProperty state;
+		private final SimpleIntegerProperty state;
 		private final SimpleStringProperty latest;
 		private final SimpleStringProperty enter;
 		private final SimpleStringProperty typeNum;
-		private final SimpleStringProperty isChild;
+		private final SimpleBooleanProperty isChild;
 		private final SimpleDoubleProperty price;
 	 
-		private Order(String orderId, String info, String state, String latest, String enter, String typeNum, String isChild, double price) {
+		private Order(String orderId, String info, int state, String latest, String enter, String typeNum, boolean isChild, double price) {
 			this.orderId = new SimpleStringProperty(orderId);
 			this.info = new SimpleStringProperty(info);
-			this.state = new SimpleStringProperty(state);
+			this.state = new SimpleIntegerProperty(state);
 			this.latest = new SimpleStringProperty(latest);
 			this.enter = new SimpleStringProperty(enter);
 			this.typeNum = new SimpleStringProperty(typeNum);
-			this.isChild = new SimpleStringProperty(isChild);
+			this.isChild = new SimpleBooleanProperty(isChild);
 			this.price = new SimpleDoubleProperty(price);
 			
 		}
@@ -335,10 +628,10 @@ public class DealOrderController {
 		public void setInfo(String in) {
 			info.set(in);
 		}
-		public String getState() {
+		public int getState() {
 			return state.get();
 		}	 
-		public void setState(String st) {
+		public void setState(int st) {
 			state.set(st);
 		}
 		public String getLatest() {
@@ -365,11 +658,11 @@ public class DealOrderController {
 			typeNum.set(tn);
 		}
 		
-		public String getIsChild() {
+		public boolean getIsChild() {
 			return isChild.get();
 		}
 	 
-		public void setIsChild(String ic) {
+		public void setIsChild(boolean ic) {
 			isChild.set(ic);
 		}
 		

@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import presentation.controller.UserViewControllerImpl;
 import vo.OrderVo;
 
 public class CheckOrderFrame {
@@ -18,9 +19,9 @@ public class CheckOrderFrame {
 	private Button tb3 = new Button("撤销订单");
 	private Button tb4 = new Button("异常订单");
 	List<OrderVo> list ;
-	UserViewControllerService controller;
+	private UserViewControllerImpl controller;
 	
-	public CheckOrderFrame(UserViewControllerService controller) {
+	public CheckOrderFrame(UserViewControllerImpl controller) {
 		this.controller=controller;
 	}
 

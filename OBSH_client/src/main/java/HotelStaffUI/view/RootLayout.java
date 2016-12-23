@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import presentation.controller.UserViewControllerImpl;
 
 public class RootLayout extends Application {
 	private Stage primaryStage;
@@ -36,7 +37,7 @@ public class RootLayout extends Application {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * 实现窗口可拖拽
 	 * @param root

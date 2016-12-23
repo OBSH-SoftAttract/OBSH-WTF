@@ -1,5 +1,8 @@
 package presentation.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,65 +17,51 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import presentation.controller.UserViewControllerImpl;
 
 public class PrePrice {
-	
-	private UserViewControllerService controller;
-	
-	public PrePrice(UserViewControllerService controller){
+	private final TableView table = new TableView();
+	ObservableList<Comment> data;
+
+	private UserViewControllerImpl controller;
+	public PrePrice(UserViewControllerImpl controller){
 		this.controller=controller;
 	}
-	
-	private final TableView table = new TableView();
-	final ObservableList<Comment> data = FXCollections.observableArrayList(
-	    new Comment("1", "总统府", "成人票","10","10"));
-	public VBox addPrePrice(BorderPane mainFrame,String hotelname){
-		VBox v = new VBox();
-		table.setEditable(false);		 
-		TableColumn numtc = new TableColumn("序号");
-        TableColumn sspottc = new TableColumn("景点");
-        TableColumn tickettypetc = new TableColumn("票型");
-        TableColumn pricetc = new TableColumn("票价");
-        TableColumn ntc = new TableColumn("票数");
-        numtc.setCellValueFactory(
-                new PropertyValueFactory<>("num")
-            );
-        sspottc.setCellValueFactory(
-                new PropertyValueFactory<>("sspot")
-            );
-        tickettypetc.setCellValueFactory(
-                new PropertyValueFactory<>("tickettype")
-            );
-        pricetc.setCellValueFactory(
-                new PropertyValueFactory<>("price")
-            );
-        ntc.setCellValueFactory(
-                new PropertyValueFactory<>("numt")
-            );
-        table.getColumns().addAll(numtc, sspottc, tickettypetc,pricetc,ntc);
-        table.setItems(data);
-        table.setMaxSize(400, 300);
-        v.getChildren().add(table);
-        Text numt = new Text("数量：");
-        TextField numtf = new TextField();
-        numtf.setPromptText("请输入数量");
-        Button confirm = new Button("预定");
-        HBox hb2 = new HBox();
-        hb2.getChildren().addAll(numt,numtf);
-        hb2.setSpacing(20);
-        v.getChildren().addAll(hb2,confirm);
-        v.setSpacing(20);
-        confirm.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent event) {
-				//controller生成订单，并改变ntc
-				ProduceOrder po = new ProduceOrder(controller);
-				po.produce(hotelname,"");
-				mainFrame.setDisable(true);
-			}
-        });
-		return v;
-	}
+		public VBox addPrePrice(BorderPane mainFrame,String hotelname){
+			List<Comment> list=new ArrayList<Comment>();
+			
+			data = FXCollections.observableArrayList(list);
+			
+			VBox v = new VBox();
+			table.setEditable(false);		 
+			TableColumn numtc = new TableColumn("名称");
+	        TableColumn sspottc = new TableColumn("开始时间");
+	        TableColumn tickettypetc = new TableColumn("结束时间");
+	        TableColumn pricetc = new TableColumn("详细信息");
+	        TableColumn ntc = new TableColumn("折扣");
+	        numtc.setCellValueFactory(
+	                new PropertyValueFactory<>("num")
+	            );
+	        sspottc.setCellValueFactory(
+	                new PropertyValueFactory<>("sspot")
+	            );
+	        tickettypetc.setCellValueFactory(
+	                new PropertyValueFactory<>("tickettype")
+	            );
+	        pricetc.setCellValueFactory(
+	                new PropertyValueFactory<>("price")
+	            );
+	        ntc.setCellValueFactory(
+	                new PropertyValueFactory<>("numt")
+	            );
+	        table.getColumns().addAll(numtc, sspottc, tickettypetc,pricetc,ntc);
+	        table.setItems(data);
+	        table.setMaxSize(800, 300);
+	        v.getChildren().add(table);
+	        v.setSpacing(20);
+
+			return v;
+		}
 	public static class Comment{
 		private final SimpleStringProperty num;
 		private final SimpleStringProperty sspot;
@@ -97,13 +86,13 @@ public class PrePrice {
 		}
 	 
 		public String getSspot() {
-			return num.get();
+			return sspot.get();
 		}
 	 
 		public void setSspot(String st) {
-			num.set(st);
+			sspot.set(st);
 		}
-		public String getTckettype() {
+		public String getTickettype() {
 			return tickettype.get();
 		}
 	 
@@ -119,11 +108,11 @@ public class PrePrice {
 			price.set(p);
 		}
 		public String getNumt() {
-			return num.get();
+			return numt.get();
 		}
 	 
 		public void setNumt(String nt) {
-			num.set(nt);
+			numt.set(nt);
 		}
 	}
 }

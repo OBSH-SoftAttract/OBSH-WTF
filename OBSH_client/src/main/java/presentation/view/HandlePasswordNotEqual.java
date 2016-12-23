@@ -38,4 +38,3 @@ public class HandlePasswordNotEqual {
 		return stage;
 	 }
 }
-

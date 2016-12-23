@@ -1,4 +1,5 @@
 package vo;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -11,16 +12,19 @@ import java.sql.Timestamp;
  * @author bxh
  */
 
-public class CreditVo {
-	private int userID;
+public class CreditVo implements Serializable{
 	
-	private Timestamp  time;
+	private static final long serialVersionUID = 1L;
 	
-	private int action;
+	private int userID=0;
 	
-	private String CreditChange;
+	private Timestamp time;
 	
-	private double CreditResult;
+	private int action=0;
+	
+	private String CreditChange="";
+	
+	private double CreditResult=0;
 	
 	private String orderID="";
 	

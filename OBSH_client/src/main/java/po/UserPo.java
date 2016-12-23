@@ -1,13 +1,16 @@
 package po;
 
+import java.io.Serializable;
+
 import vo.UserVo;
 
-public class UserPo {
-	private int id;
-	private String username;
-	private String password;
-	private String phone;
-	private boolean login;
+public class UserPo implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private int id=0;
+	private String username="";
+	private String password="";
+	private String phone="";
+	private boolean login=false;
 
 	public UserPo(int i, String pa, String ph, String un, boolean log) {
 		this.id = i;

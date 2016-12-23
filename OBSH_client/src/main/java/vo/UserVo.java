@@ -1,12 +1,14 @@
 package vo;
 
+import java.io.Serializable;
 
-public class UserVo {
-	private int id;
-	private String username;
-	private String password;
-	private String phone;
-    private boolean login;
+public class UserVo implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private int id=0;
+	private String username="";
+	private String password="";
+	private String phone="";
+    private boolean login=false;
     
 	public UserVo() {
 		super();

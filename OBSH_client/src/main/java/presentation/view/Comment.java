@@ -13,14 +13,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import presentation.controller.UserViewControllerImpl;
 
 public class Comment {
 	
-	UserViewControllerService controller;
+	private UserViewControllerImpl controller;
 	int HotelId;
 	String orderId;
 
-	public Comment(UserViewControllerService controller,int hotel,String orderID) {
+	public Comment(UserViewControllerImpl controller,int hotel,String orderID) {
 		this.controller = controller;
 		this.HotelId=hotel;
 		this.orderId=orderID;
@@ -170,4 +171,3 @@ public class Comment {
 		
 	}
 }
-

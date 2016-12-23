@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import presentation.controller.UserViewControllerImpl;
 import vo.UserVo;
 
 public class MaintainPersonalInfo {
@@ -23,9 +24,9 @@ public class MaintainPersonalInfo {
 	private TextField membertf = new TextField();
 	//跳至维护个人信息信息主界面
 	
-	UserViewControllerService controller;
+	private UserViewControllerImpl controller;
 	
-	public  MaintainPersonalInfo(UserViewControllerService controller){
+	public  MaintainPersonalInfo(UserViewControllerImpl controller){
 		this.controller=controller;
 	}
 	

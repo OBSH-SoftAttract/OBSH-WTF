@@ -9,12 +9,13 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import presentation.controller.UserViewControllerImpl;
 
 public class ReverseHistory {
 	
-	private UserViewControllerService controller;
+	private UserViewControllerImpl controller;
 	
-	public ReverseHistory(UserViewControllerService controller){
+	public ReverseHistory(UserViewControllerImpl controller){
 		this.controller=controller;
 	}
 	

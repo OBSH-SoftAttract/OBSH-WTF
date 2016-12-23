@@ -7,13 +7,13 @@ import presentation.view.UserView;
 
 
 public class Main extends Application{
-	public static void main(String[]args){
-		new client_run().linkToServer();
+	public static void main(String[]args){	
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		new client_run().linkToServer();
 		UserViewControllerImpl user=new UserViewControllerImpl();
 		UserView client=new UserView(user);
 		primaryStage = client.Main();

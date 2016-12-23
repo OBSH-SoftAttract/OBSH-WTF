@@ -11,8 +11,8 @@ import blservice.PromotionBLService;
 import blservice.UserBLService;
 
 public class RemoteHelper_client {
-	private static RemoteHelper_client remotehelper = new RemoteHelper_client();
 	private Remote remote;
+	private static RemoteHelper_client remotehelper = new RemoteHelper_client();
 
 	public static RemoteHelper_client getInstance() {
 		return remotehelper;

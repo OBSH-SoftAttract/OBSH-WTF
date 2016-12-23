@@ -5,18 +5,20 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -25,30 +27,32 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import presentation.controller.UserViewControllerImpl;
 import presentation.view.HotelList;
-import presentation.view.UserViewControllerService;
 import vo.HotelVo;
 import vo.UserVo;
 
 public class UserMainFrame {
-	private Button searchIcon;
-	private Button button;
-	private int priceSelectIndex;
-	private int roomTypeSelectIndex;
-	private int priceSort;
+	private Button searchIcon = new Button();
+	final ObservableList<String> Saddress = FXCollections.observableArrayList("南京","常州","苏州");		
+	final ObservableList<String> NJcommercial = FXCollections.observableArrayList("新街口","湖南路","珠江路","夫子庙","中央门");		
+	final ObservableList<String> CZcommercial = FXCollections.observableArrayList("南大街","文化宫","花园街");		
+	final ObservableList<String> SZcommercial = FXCollections.observableArrayList("观前街","石路","南门","新区");		
+	final ComboBox<String>  address = new ComboBox<String> (Saddress);
+	final ComboBox<String>  commercial = new ComboBox<String> (NJcommercial);
 	private final String pattern = "yyyy-MM-dd";
 	private DatePicker checkinDatePicker;
 	private DatePicker checkoutDatePicker;
-	private LocalDate checkindate;
-	private LocalDate checkoutdate;
+
+	
 	/*客户主界面
      * 包括退出的链接，跳转到搜索酒店界面，查看订单界面，维护个人信息界面的按钮
      *  以及要求用户输入关于地址商圈信息的搜索框
      */
 	
-	private UserViewControllerService controller;
+	private UserViewControllerImpl controller;
 	
-	public UserMainFrame(UserViewControllerService controller){
+	public UserMainFrame(UserViewControllerImpl controller){
 		this.controller=controller;
 	}
 	
@@ -94,21 +98,45 @@ public class UserMainFrame {
 		hb2.setAlignment(Pos.CENTER);
 		mainFrame.setLeft(hb1);
 		//搜索框	
-		HBox searchhb = new HBox();		
-		TextField locationtf = new TextField();
-		TextField commercialtf = new TextField();
-		locationtf.setMinSize(150, 30);
-		locationtf.setMaxSize(150, 30);
-		commercialtf.setMinSize(150, 30);
-		commercialtf.setMaxSize(150, 30);
-		searchhb.setSpacing(15);
-		searchhb.getChildren().addAll(addText("地址"),locationtf,addText("商圈"),commercialtf);
-		searchhb.setPadding(new Insets(100,150,100,150));
-		searchhb.setSpacing(10);
-		searchhb.setAlignment(Pos.CENTER);
-		button = AddSearchButton();
-		searchhb.getChildren().add(button);
-		mainFrame.setCenter(searchhb);			
+		HBox hb = new HBox();
+		address.setPromptText("南京");	
+		commercial.setPromptText("新街口");
+		hb.setSpacing(30);
+		hb.setAlignment(Pos.CENTER);
+		hb.setMaxSize(400, 400);
+		hb.setMinSize(400, 400);
+		address.getSelectionModel().selectedItemProperty().addListener(new ChangeListener(){
+					@Override
+					public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+						// TODO Auto-generated method stub
+						int Aindex = address.getSelectionModel().getSelectedIndex();
+						if(Aindex == 0){
+							commercial.setItems(null);
+							commercial.setPromptText("新街口");
+							commercial.setItems(NJcommercial);
+						}
+						if(Aindex == 1){
+							commercial.setItems(null);
+							commercial.setPromptText("南大街");
+							commercial.setItems(CZcommercial);
+						}
+						if(Aindex == 2){
+							commercial.setItems(null);
+							commercial.setPromptText("观前街");
+							commercial.setItems(SZcommercial);
+						}
+					}			
+				});
+				commercial.setOnAction(new EventHandler<ActionEvent>(){
+					@Override
+					public void handle(ActionEvent event) {
+						// TODO Auto-generated method stub                                         
+						int Cindex = commercial.getSelectionModel().getSelectedIndex();
+					}
+				});
+				searchIcon.setMinSize(25, 25);
+				hb.getChildren().addAll(address,commercial,searchIcon);
+				mainFrame.setCenter(hb);					
 
 		HBox top = new HBox();
 	    Button close = new Button();
@@ -131,7 +159,7 @@ public class UserMainFrame {
 		flexiblebt.getStyleClass().add("FlexibleButton");
 		label.getStyleClass().add("Label");
 		expandbt.getStyleClass().add("FlexibleButton");
-		button.getStyleClass().add("SearchButton");
+		searchIcon.getStyleClass().add("SearchButton");
 		close.getStyleClass().add("CloseButton");
 		flexiblebt.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
@@ -150,13 +178,15 @@ public class UserMainFrame {
 			@Override
 			public void handle(ActionEvent event) {
 				//跳至搜索酒店信息主界面
-				String address = locationtf.getText();
-				String commercial = commercialtf.getText();
-				if(!address.equals("")&&!commercial.equals("")){
+				int index1=address.getSelectionModel().getSelectedIndex();
+				int index2=commercial.getSelectionModel().getSelectedIndex();
+				if(index1==-1)index1++;
+				if(index2==-1)index2++;
 					mainFrame.setLeft(hb1);
-					VBox searchHotelvb = jumptoSearchHotelMainFrame(mainFrame,address,commercial);
+					VBox searchHotelvb = jumptoSearchHotelMainFrame(mainFrame,address.getItems().get(index1),commercial.getItems().get(index2),"","不限",
+							0,false,false,false,false);
 					mainFrame.setCenter(searchHotelvb);					
-				}	
+				
 			}
 		});
 		
@@ -213,148 +243,105 @@ public class UserMainFrame {
 		return searchIcon;
 	}
 	//跳转到搜索酒店主界面
-	public VBox jumptoSearchHotelMainFrame(BorderPane mainFrame,String address,String commercial){	
-		VBox v = new VBox();
-		v.setMinSize(800, 600);
-		v.setMaxSize(800, 600);
-		HBox top = new HBox();
-		VBox vb = new VBox();
-		vb.setSpacing(10);
-		HBox searchLineone = new HBox();
-		TextField locationtf = new TextField();
-		TextField commercialtf = new TextField();
-		locationtf.setMinSize(120, 30);
-		locationtf.setMaxSize(120, 30);
-		locationtf.setText(address);
-		commercialtf.setMinSize(120, 30);
-		commercialtf.setMaxSize(120, 30);
-		commercialtf.setText(commercial);
-		searchLineone.setSpacing(10);
-		searchLineone.getChildren().addAll(addText("地址"),locationtf,addText("商圈"),commercialtf);
-		HBox searchLinetwo = new HBox();
-		Text checkin = new Text("入住");
-		Text checkout = new Text("退房");
-		checkinDatePicker = new DatePicker();
-		checkinDatePicker.setValue(LocalDate.now());
-		checkoutDatePicker = new DatePicker();			
-	    checkoutDatePicker.setValue(checkinDatePicker.getValue().plusDays(1));
-		Button searchIcon = AddSearchButton();
-		searchLinetwo.getChildren().addAll(checkin,addDatePicker(checkinDatePicker),
-				checkout,addDatePicker(checkoutDatePicker),searchLineone,searchIcon);
-		searchLinetwo.setSpacing(10);
-		vb.getChildren().add(searchLinetwo);
-		//价格
-		HBox price = new HBox();
-		RadioButton rb1 = new RadioButton();
-		rb1.setText("￥150以下");
-		RadioButton rb2 = new RadioButton();
-		rb2.setText("￥150-300");
-		RadioButton rb3 = new RadioButton();
-		rb3.setText("￥301-450");
-		RadioButton rb4 = new RadioButton();
-		rb4.setText("￥451-600");
-		RadioButton rb5 = new RadioButton();
-		rb5.setText("￥600以上");
-		RadioButton rb6 = new RadioButton();
-		rb6.setText("不限");
-		price.setSpacing(10);
-		Text pricet = new Text("价格");
-		price.getChildren().addAll(pricet,rb1,rb2,rb3,rb4,rb5,rb6);
-		vb.getChildren().add(price);
-		final ToggleGroup tgroup = new ToggleGroup();
-		rb1.setToggleGroup(tgroup);
-		rb2.setToggleGroup(tgroup);
-		rb3.setToggleGroup(tgroup);
-		rb4.setToggleGroup(tgroup);
-		rb5.setToggleGroup(tgroup);
-		rb6.setToggleGroup(tgroup);
+	public VBox jumptoSearchHotelMainFrame(BorderPane mainFrame,String Address,String Commercial,String hotelName,String roomType,
+			int hotelStar,boolean ifHis,boolean PriceSort,boolean StarSort,boolean ScoreSort){	
 		
-		//房间类型
-		HBox roomType = new HBox();
-		Text room = new Text();
-		room.setText("房间类型");
-		RadioButton c1 = new RadioButton("大床房");
-		RadioButton c2 = new RadioButton("双床房");
-		RadioButton c3 = new RadioButton("家庭房/三人");
-		RadioButton c4 = new RadioButton("套间");
-		RadioButton c5 = new RadioButton("不限");
-		roomType.setSpacing(10);
-		roomType.getChildren().addAll(room,c1,c2,c3,c4,c5);
-		final ToggleGroup roomTypeGroup = new ToggleGroup();
-		c1.setToggleGroup(roomTypeGroup);
-		c2.setToggleGroup(roomTypeGroup);
-		c3.setToggleGroup(roomTypeGroup);
-		c4.setToggleGroup(roomTypeGroup);
-		c5.setToggleGroup(roomTypeGroup);
-		vb.getChildren().add(roomType);
-
-
 		//根据酒店和商圈获得相应酒店的controller调用
 		List<HotelVo> hotelList=null;
 		try {
-			hotelList=controller.getHotels(locationtf.toString(), commercialtf.toString());
+			hotelList=controller.getHotels(Address, Commercial,hotelName,roomType,
+					hotelStar,PriceSort,StarSort,ScoreSort);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}		
-		HotelList hl = new HotelList(hotelList,controller);
+		HotelList hl = new HotelList(hotelList,controller,ifHis);
+		
+		VBox v = new VBox();
+		v.setMinSize(800, 600);
+		v.setMaxSize(800, 600);
+		HBox top1=new HBox();
+		HBox top2=new HBox();
+		HBox top3 = new HBox();
+		HBox top4=new HBox();
+		VBox vb = new VBox();
+		vb.setSpacing(10);
+		
+		ObservableList<String> Types = FXCollections.observableArrayList("不限","标准房","双人房","家庭房","豪华房");		
+		ComboBox<String>  types = new ComboBox<String> (Types);
+		ObservableList<String> Stars = FXCollections.observableArrayList("不限","二星及以上","三星及以上","四星及以上","五星");		
+		ComboBox<String>  stars = new ComboBox<String> (Stars);	
+		ObservableList<String> historys = FXCollections.observableArrayList("否","是");		
+		ComboBox<String>  history = new ComboBox<String> (historys);
+		String temp[]={"不限","二星及以上","三星及以上","四星及以上","五星"};
+		
+        types.setPromptText(roomType);	
+		stars.setPromptText(temp[hotelStar]);
+		String s="否";
+		if(ifHis)
+			s="是";
+		history.setPromptText(s);
+		
+		Text t=new Text("排序:");
+        CheckBox cbs1 = new CheckBox("价格");
+        CheckBox cbs2 = new CheckBox("星级");
+        CheckBox cbs3 = new CheckBox("评分");
+        
+        cbs1.setSelected(PriceSort);
+        cbs2.setSelected(StarSort);
+        cbs3.setSelected(ScoreSort);
+        
+        top3.getChildren().addAll(t,cbs1,cbs2,cbs3);
+        TextField name=new TextField();
+        name.setMinWidth(10);
+        Text t1=new Text("酒店名称");
+        Text t2=new Text("类型");
+        Text t3=new Text("星级");
+        Text t4=new Text("住过的酒店");
+        
+        top1.setSpacing(15);
+        top2.setSpacing(15);
+        top3.setSpacing(15);
+        top4.setSpacing(10);
+        v.setSpacing(10);
+        
+        top2.getChildren().addAll(t1,name,t2,types,t3,stars);
+        top1.getChildren().addAll(address,commercial,searchIcon);
+        top4.getChildren().addAll(t4,history);
+		//这里应该有一个根据酒店和商圈获得相应酒店的controller调用
 		VBox hotellist = hl.addHotelList(mainFrame);
+		hotellist.setMaxWidth(600);
 		vb.getChildren().add(hotellist);	
-		v.getChildren().addAll(top,vb);
+		v.getChildren().addAll(top1,top2,top3,top4,vb);
 		searchIcon.getStyleClass().add("SearchButton");
 		
+
 		searchIcon.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-				checkindate = checkinDatePicker.getValue();
-				checkoutdate = checkoutDatePicker.getValue();
-				String address = locationtf.getText();
-				String commercial = commercialtf.getText();
-				priceSelectIndex = 6;
-				tgroup.selectedToggleProperty().addListener(
-					    (ObservableValue<? extends Toggle> ov, Toggle old_Toggle,
-					    Toggle new_Toggle) -> {
-					        if (tgroup.getSelectedToggle() == rb1) {
-					        	priceSelectIndex = 1;
-					        }
-					        else if (tgroup.getSelectedToggle() == rb2) {
-					        	priceSelectIndex = 2;
-					        }
-					        else if (tgroup.getSelectedToggle() == rb3) {
-					        	priceSelectIndex = 3;
-					        }
-					        else if (tgroup.getSelectedToggle() == rb4) {
-					        	priceSelectIndex = 4;
-					        }
-					        else if (tgroup.getSelectedToggle() == rb5) {
-					        	priceSelectIndex = 5;
-					        }
-					        else if (tgroup.getSelectedToggle() == rb6) {
-					        	priceSelectIndex = 6;
-					        }
-					});
-				roomTypeSelectIndex = 5;
-				roomTypeGroup.selectedToggleProperty().addListener(
-					    (ObservableValue<? extends Toggle> ov, Toggle old_Toggle,
-					    Toggle new_Toggle) -> {
-					        if (roomTypeGroup.getSelectedToggle() == c1) {
-					        	 roomTypeSelectIndex = 1;
-					        }
-					        else if (roomTypeGroup.getSelectedToggle() == c2) {
-					        	 roomTypeSelectIndex = 2;
-					        }
-					        else if (roomTypeGroup.getSelectedToggle() == c3) {
-					        	 roomTypeSelectIndex = 3;
-					        }
-					        else if (roomTypeGroup.getSelectedToggle() == c4) {
-					        	 roomTypeSelectIndex = 4;
-					        }
-					        else if (roomTypeGroup.getSelectedToggle() == c5) {
-					        	 roomTypeSelectIndex = 5;
-					        }
-					});
+				int typesIndex=types.getSelectionModel().getSelectedIndex();//房间类型
+				if(typesIndex<0)typesIndex++;
+				int starIndex=stars.getSelectionModel().getSelectedIndex();//星级
+				if(starIndex<0)starIndex++;
+				int ifHistoryIndex=history.getSelectionModel().getSelectedIndex();//是否住过
+				if(ifHistoryIndex<0)ifHistoryIndex++;
+				String type=types.getItems().get(typesIndex);
+				int star=starIndex;
+				
+				String hotelname=name.getText();
+				int index1=address.getSelectionModel().getSelectedIndex();
+				int index2=commercial.getSelectionModel().getSelectedIndex();
+				if(index1==-1)index1++;
+				if(index2==-1)index2++;
+				boolean ifHistorY=false;
+				if(ifHistoryIndex==1)ifHistorY=true;
+				boolean priceSort=cbs1.isSelected();
+				boolean starSort=cbs2.isSelected();
+				boolean scoreSort=cbs3.isSelected();
 				
 				
-			}				
+				jumptoSearchHotelMainFrame(mainFrame,address.getItems().get(index1),commercial.getItems().get(index2),
+						hotelname,type,star,ifHistorY,priceSort,starSort,scoreSort);
+			}
 		});
 		return v;
 	}	
@@ -365,36 +352,46 @@ public class UserMainFrame {
 		return text;
 	}
 	public HBox addSearchhb(BorderPane mainFrame, HBox hb1){
-		HBox searchhb = new HBox();
-		TextField locationtf = new TextField();
-		TextField commercialtf = new TextField();
-		locationtf.setMinSize(150, 30);
-		locationtf.setMaxSize(150, 30);
-		commercialtf.setMinSize(150, 30);
-		commercialtf.setMaxSize(150, 30);
-		searchhb.setSpacing(15);
-		searchhb.getChildren().addAll(addText("地址"),locationtf,addText("商圈"),commercialtf);
-		searchhb.setPadding(new Insets(100,150,100,150));
-		searchhb.setSpacing(10);
-		searchhb.setAlignment(Pos.CENTER);
-		button = AddSearchButton();
-		button.getStyleClass().add("SearchButton");
-		searchhb.getChildren().add(button);
-		searchIcon.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent event) {
-				//跳至搜索酒店信息主界面
-				mainFrame.setLeft(hb1);
-				String address = locationtf.getText();
-				String commercial = commercialtf.getText();
-				if(!address.equals("")&&!commercial.equals("")){
-					VBox searchHotelvb = jumptoSearchHotelMainFrame(mainFrame,address,commercial);
-				    mainFrame.setCenter(searchHotelvb);
-				}
-						
-			}
-		});
-		return searchhb;
+		HBox hb = new HBox();
+		address.setPromptText("南京");	
+		commercial.setPromptText("新街口");
+		hb.setSpacing(30);
+		hb.setAlignment(Pos.CENTER);
+		hb.setMaxSize(400, 400);
+		hb.setMinSize(400, 400);
+		address.getSelectionModel().selectedItemProperty().addListener(new ChangeListener(){
+					@Override
+					public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+						// TODO Auto-generated method stub
+						int Aindex = address.getSelectionModel().getSelectedIndex();
+						if(Aindex == 0){
+							commercial.setItems(null);
+							commercial.setPromptText("新街口");
+							commercial.setItems(NJcommercial);
+						}
+						if(Aindex == 1){
+							commercial.setItems(null);
+							commercial.setPromptText("南大街");
+							commercial.setItems(CZcommercial);
+						}
+						if(Aindex == 2){
+							commercial.setItems(null);
+							commercial.setPromptText("观前街");
+							commercial.setItems(SZcommercial);
+						}
+					}			
+				});
+				commercial.setOnAction(new EventHandler<ActionEvent>(){
+					@Override
+					public void handle(ActionEvent event) {
+						// TODO Auto-generated method stub                                         
+						int Cindex = commercial.getSelectionModel().getSelectedIndex();
+					}
+				});
+				searchIcon.setMinSize(25, 25);
+				hb.getChildren().addAll(address,commercial,searchIcon);
+				mainFrame.setCenter(hb);		
+		return hb;
 	}
 
 private DatePicker addDatePicker(DatePicker datePicker){

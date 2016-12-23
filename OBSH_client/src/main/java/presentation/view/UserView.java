@@ -30,12 +30,10 @@ public class UserView {
 	private TextField usernametf = new TextField();
 	private PasswordField passwordtf = new PasswordField();
 
-	private UserViewControllerService userviewService;
+	private UserViewControllerImpl userviewService;
 
 	public UserView(UserViewControllerImpl controller) {
 		this.userviewService = controller;
-		
-		Main();
 	}
 
 	public Stage Main() {
@@ -117,20 +115,32 @@ public class UserView {
 					e.printStackTrace();
 				}
 
-				/*switch (re) {
+				switch (re) {
 				case FormatWrong:
 					LoginFail("用户名错误，请重新输入", primaryStage);
 					break;
 				case NotExist:
 					LoginFail("用户名不存在，请重新输入", primaryStage);
 					break;
+				case HasExist :
+					LoginFail("用户已登录!",primaryStage);
 				case WrongPassword:
 					LoginFail("密码错误，请重新输入", primaryStage);
 					break;
 				case NULL:
 					LoginFail("请输入完整", primaryStage);
-					break;*/
-				//default://登录成功
+					break;
+				default:// 登录成功
+					try {
+						userviewService.setUserID(Integer.parseInt(userId));
+						/**
+						 * 这里缺少一个把loginin改成true的方法
+						 */
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
 					UserMainFrame umf = new UserMainFrame(userviewService);
 					BorderPane mainFrame = umf.jumptoUserMainFrame();
 					searchscene = new Scene(mainFrame);
@@ -139,7 +149,7 @@ public class UserView {
 					// InitStage是将所有的stage都设置成一个大小的方法
 					InitStage(primaryStage, searchscene);
 				}
-			//}
+			}
 		});
 		return primaryStage;
 	}
@@ -325,21 +335,15 @@ public class UserView {
 					notion.setText("密码位数过长");
 				else {
 					int userId = 0;
-					ResultMessage re = null;
 					try {
-						userId = userviewService.NewClientID();
-						re = userviewService.Register(username, password, phonenum, userId);
+						userId = userviewService.Register(username, password, phonenum);
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					}
-					switch (re) {
-					case NULL:
+					if (username.equals("") || password.equals("") || phonenum.equals(""))
 						notion.setText("内容不能为空");
-						break;
-					case Success:
+					else {
 						registerSuccess(userId);
-					default:
-						notion.setText("抱歉，系统错误");
 					}
 				}
 			}
@@ -349,25 +353,25 @@ public class UserView {
 		border.setCenter(root);
 		return border;
 	}
-	
-	public void registerSuccess(int userID){
+
+	public void registerSuccess(int userID) {
 		Stage stage = new Stage();
-		Text text = new Text("注册成功！欢迎您："+userID+"（请记住账号）");
+		Text text = new Text("注册成功！欢迎您:" + userID + "（请记住账号）");
 		Button button = new Button("确定");
 		VBox vb = new VBox();
 		vb.setSpacing(10);
-		vb.getChildren().addAll(text,button);
+		vb.getChildren().addAll(text, button);
 		vb.setMinSize(200, 200);
 		vb.setMaxSize(200, 200);
 		vb.setAlignment(Pos.CENTER);
 		Scene scene = new Scene(vb);
 		stage.setScene(scene);
 		stage.show();
-		button.setOnAction(new EventHandler<ActionEvent>(){
+		button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				stage.close();
-				UserViewControllerImpl user=new UserViewControllerImpl();
+				UserViewControllerImpl user = new UserViewControllerImpl();
 				UserView umf = new UserView(user);
 				Stage stage = umf.Main();
 				stage.show();

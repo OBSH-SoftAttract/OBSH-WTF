@@ -1,0 +1,181 @@
+package HotelStaffUI.controller;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import HotelStaffUI.controller.RoomMessageController.Room;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.util.Callback;
+import presentation.controller.UserViewControllerImpl;
+import vo.PromotionVo;
+
+public class PromotionItemController {
+	
+	private UserViewControllerImpl controller = new UserViewControllerImpl();
+	
+	@FXML
+	private Button roommessage;
+	
+	@FXML
+	private Button orderdeal;
+	
+	@FXML
+	private Button addpromotion;
+	
+	@FXML
+	private Button basic;
+	
+	@FXML
+	private Button add;
+	
+	@FXML
+	private TableColumn name;
+	
+	@FXML
+	private TableColumn start;
+	
+	@FXML
+	private TableColumn end;
+	
+	@FXML
+	private TableColumn info;
+	
+	@FXML
+	private TableColumn count;
+	
+	@FXML
+	private TableView<Promotion> table;
+	
+	private List<Promotion> promotionlist;
+	
+	@FXML
+	private void initialize() {
+		promotionlist = new ArrayList<Promotion>();
+		promotionlist.add(new Promotion("生日特惠折扣","2016-11-25","2018-12-25","全体用户",0.7));
+		promotionlist.add(new Promotion("三间及以上预订优惠","2016-11-25","2017-02-03","全体用户",0.9));
+		promotionlist.add(new Promotion("合作企业用户折扣","2016-11-25","2018-12-25","合作企业用户",0.88));
+		promotionlist.add(new Promotion("双十一活动折扣","2016-11-10","2016-11-12","全体用户",0.88));
+		final ObservableList<Promotion> data = FXCollections.observableArrayList(promotionlist);
+
+        name.setCellValueFactory(
+                new PropertyValueFactory<>("promotionname")
+            );
+        start.setCellValueFactory(
+                new PropertyValueFactory<>("startdate")
+            );
+        end.setCellValueFactory(
+                new PropertyValueFactory<>("enddate")
+            );
+        info.setCellValueFactory(
+                new PropertyValueFactory<>("information")
+            );
+        count.setCellValueFactory(
+                new PropertyValueFactory<>("discount")
+            );
+		table.setItems(data);
+	}
+	
+	
+	@FXML
+	private void deletepromotion() {
+		/**
+		 * 删除策略
+		 */
+		PromotionVo vo;
+		int hotelID = controller.getUserID();
+		int index = table.getSelectionModel().getSelectedIndex();
+		String promotionname =  table.getItems().get(index).getPromotionname();
+		Timestamp startdate = Timestamp.valueOf(table.getItems().get(index).getStartdate());
+		Timestamp enddate =  Timestamp.valueOf(table.getItems().get(index).getEnddate());
+		String information =  table.getItems().get(index).getInformation();
+		double discount =  table.getItems().get(index).getDiscount();
+		String id = String.valueOf(hotelID) + String.valueOf(index);
+		controller.DelPromotion(vo);
+	}
+	
+	@FXML
+	private void modifypromotion() {
+		/**
+		 * 修改策略
+		 */
+	}
+	
+	/**
+	 * 打开添加策略的界面
+	 */
+	@FXML
+	private void jumpToAddpromotion() {
+		//AddPromotion a = new AddPromotion();
+		//a.start(new Stage());
+	}
+	
+
+	/**
+	 * 构造了PromotionList中的内容
+	 * @author asus1
+	 *
+	 */
+	public static class Promotion {
+		private final SimpleStringProperty promotionname;
+		private final SimpleStringProperty startdate;
+		private final SimpleStringProperty enddate;
+		private final SimpleStringProperty information;
+		private final SimpleDoubleProperty discount;
+	 
+		private Promotion(String pn, String sd, String ed, String in, double dc) {
+			this.promotionname = new SimpleStringProperty(pn);
+			this.startdate = new SimpleStringProperty(sd);
+			this.enddate = new SimpleStringProperty(ed);
+			this.information = new SimpleStringProperty(in);
+			this.discount = new SimpleDoubleProperty(dc);
+		}
+	 
+		public String getPromotionname() {
+			return promotionname.get();
+		}	 
+		public void setPromotionname(String on) {
+			promotionname.set(on);
+		} 
+		public String getStartdate() {
+			return startdate.get();
+		}	 
+		public void setStartdate(String sd) {
+			startdate.set(sd);
+		}
+		public String getEnddate() {
+			return enddate.get();
+		}	 
+		public void setEnddate(String ed) {
+			enddate.set(ed);
+		}
+		public String getInformation() {
+			return information.get();
+		}
+	 
+		public void setInformation(String in) {
+			information.set(in);
+		}
+		
+		public double getDiscount() {
+			return discount.get();
+		}
+	 
+		public void setDiscount(double ds) {
+			discount.set(ds);
+		}
+
+	}
+	
+
+
+}

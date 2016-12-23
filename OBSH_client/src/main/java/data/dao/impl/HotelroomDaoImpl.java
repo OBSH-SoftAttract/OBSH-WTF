@@ -51,6 +51,22 @@ public class HotelroomDaoImpl implements HotelroomDao {
 	}
 	
 	@Override
+	public List<HotelroomPo> getHotelroomByroomType(String roomType) { 
+		// TODO Auto-generated method stub
+		
+		List<HotelroomPo> hotelrooms = new ArrayList<HotelroomPo>();
+		Iterator<Entry<String, HotelroomPo>> iterator = map.entrySet().iterator();
+		while(iterator.hasNext()){
+			Entry<String, HotelroomPo> entry = iterator.next();
+			HotelroomPo hotelroomPo = entry.getValue();
+			
+			if(hotelroomPo.getRoomType().equals(roomType))
+				hotelrooms.add(hotelroomPo);
+		}
+		return hotelrooms;
+	}
+	
+	@Override
 	public List<HotelroomPo> getHotelroomByHotelID(int hotelID) {
 		// TODO Auto-generated method stub
 		

@@ -37,5 +37,7 @@ public interface PromotionDao {
 	 */
 	public boolean deletePromotionPo(String itemName);
 
+	public List<PromotionPo> getLineItemByHotel(int hotelID);
+
 }
 

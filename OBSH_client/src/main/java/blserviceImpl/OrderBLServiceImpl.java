@@ -85,24 +85,27 @@ public class OrderBLServiceImpl implements OrderBLService{
 	}
 
 	@Override
-	public ResultMessage Add(OrderVo ordervo) {
+	public ResultMessage AddOrder(OrderVo ordervo) throws RemoteException {
 		OrderPo orderPo=new OrderPo(ordervo);
 		orderPo.setStartTime(nowtime.NowTime());
+		
+		String roomInfo[]=ordervo.getRoomInfo().split("[+]");
+		int roomnum=Integer.parseInt(roomInfo[1]);
+		hotelbl.ModifyRoomNumByOrder(ordervo.getHotelID(),roomnum, roomInfo[0] );
 		
 		if(orderdao.addOrderPo(orderPo))return ResultMessage.Success;
 		return ResultMessage.IDExsit;
 	}
 
 	@Override
-	public ResultMessage CreditCheck(OrderVo ordervo) {
-		int id=ordervo.getUserID();
-		double credit=cre.getCredit(id).getCreditResult();
+	public ResultMessage CreditCheck(int userid) {
+		double credit=cre.getCredit(userid).getCreditResult();
 		if(credit>=CREDIT)return ResultMessage.CreditMet;
 		return ResultMessage.CreditWrong;
 	}
 
 	@Override
-	public PromotionPo CalPromotion(int userid) throws RemoteException {
+	public PromotionPo CalPromotion() throws RemoteException {
 		List<PromotionPo> list=promotionbl.getPromotions();
 		Iterator<PromotionPo> ite=list.iterator();
 		
@@ -124,18 +127,18 @@ public class OrderBLServiceImpl implements OrderBLService{
 	}
 
 	@Override
-	public double CalPrice(OrderVo vo) throws RemoteException{
+	public double CalDiscount(int userID) throws RemoteException{
 		double discount=1;
-		if(memberbl.isMember(vo.getUserID())){
-			double memberDiscount=memberbl.getRankDiscount(memberbl.getMemberRank(vo.getUserID()));
+		if(memberbl.isMember(userID)){
+			double memberDiscount=memberbl.getRankDiscount(memberbl.getMemberRank(userID));
 			discount=memberDiscount;
 		}
 		
-		PromotionPo promotion=CalPromotion(vo.getUserID());
+		PromotionPo promotion=CalPromotion();
 		if(promotion!=null&&promotion.getDiscount()<discount)
 			discount=promotion.getDiscount();
 		   
-		return discount*vo.getPrice();
+		return discount;
 	}
 
 	@Override
@@ -206,6 +209,19 @@ public class OrderBLServiceImpl implements OrderBLService{
 		return orderAfter;
 	}
 
+	@SuppressWarnings("null")
+	@Override
+	public List<OrderPo> ViewByStateHotel(int state,int id) {
+		List<OrderPo> orderList=ViewByHotel(id);
+		Iterator<OrderPo> ite=orderList.iterator();
+		List<OrderPo> orderAfter = null;
+		while(ite.hasNext()){
+			OrderPo po=ite.next();
+			if(po.getOrderState()==state)
+				orderAfter.add(po);
+		  }			
+		return orderAfter;
+	}
 
 	@Override
 	public List<OrderVo> TimeSort(List<OrderVo> orderlist){

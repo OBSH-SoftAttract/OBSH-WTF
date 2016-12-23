@@ -42,7 +42,7 @@ public class PromotionDaoImpl implements PromotionDao {
 		// TODO Auto-generated method stub
 		return map.get(id);
 	}
-
+	
 	@Override
 	public List<PromotionPo> getLineItem() {
 		// TODO Auto-generated method stub
@@ -53,6 +53,21 @@ public class PromotionDaoImpl implements PromotionDao {
 			Entry<Integer, PromotionPo> entry = iterator.next();
 			PromotionPo promotionPo = entry.getValue();
 			lineItem.add(promotionPo);
+		}
+		return lineItem;
+	}
+
+	@Override
+	public List<PromotionPo> getLineItemByHotel(int hotelID) {
+		// TODO Auto-generated method stub
+		
+		List<PromotionPo> lineItem = new ArrayList<PromotionPo>();
+		Iterator<Entry<Integer, PromotionPo>> iterator = map.entrySet().iterator();
+		while(iterator.hasNext()){
+			Entry<Integer, PromotionPo> entry = iterator.next();
+			PromotionPo promotionPo = entry.getValue();
+			if(promotionPo.getID()==hotelID)
+				lineItem.add(promotionPo);
 		}
 		return lineItem;
 	}

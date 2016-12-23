@@ -1,0 +1,197 @@
+package HotelStaffUI.controller;
+
+import java.io.IOException;
+import java.rmi.RemoteException;
+
+import HotelStaffUI.view.MainLogin;
+import HotelStaffUI.view.RootLayout;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import presentation.controller.UserViewControllerImpl;
+import presentation.view.UserViewControllerService;
+import vo.UserVo;
+/**
+ * 酒店工作人员的工作页面背景
+ * @author 毕潇晗
+ *
+ */
+public class RootLayoutController {
+	
+	private UserViewControllerService controller;
+	
+	private UserVo hotelstaffvo;
+	
+	private HotelVo hotelvo;
+	
+	public RootLayoutController(UserViewControllerService controller){
+		this.controller=controller;
+	}
+
+	private RootLayout rootLayout;
+	
+	@FXML
+	private Text hotelname;
+	
+	@FXML
+	private Text staffname;
+	
+	@FXML
+	private Button roommessage;
+	
+	@FXML
+	private Button orderdeal;
+	
+	@FXML
+	private Button addpromotion;
+	
+	@FXML
+	private Button basic;
+	
+	@FXML
+	private AnchorPane root;
+	
+	@FXML
+	private BorderPane Broot;
+    
+	/**
+	 * 初始化界面
+	 * 传入酒店工作人员信息及酒店信息
+	 * @throws RemoteException 
+	 */
+	@FXML
+	private void initialize() throws RemoteException {
+		hotelstaffvo = controller.GetPresentUserInfo();
+		staffname.setText(hotelstaffvo.getUsername());
+		hotelname.setText(null);
+		roommessage.setId("room-h");
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("RoomMessage.fxml"));
+			root = (AnchorPane) loader.load();
+			Broot.setRight(root);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 实现窗口关闭
+	 */
+	@FXML
+	private void CloseStage(){
+		rootLayout.getPrimaryStage().close();
+	}
+
+	/**
+	 * 实现窗口最小化
+	 */
+	@FXML
+	private void minimizeStage() {
+		rootLayout.getPrimaryStage().setIconified(true); 
+	}
+	
+	/**
+	 * Sign out
+	 * 这里有个数据库的退出？？？
+	 */
+	@FXML
+	private void BackToSignIn() {
+		rootLayout.getPrimaryStage().close();
+		MainLogin m = new MainLogin();
+		m.start(new Stage());
+	}
+	
+	/**
+	 * 打开客房管理界面
+	 */
+	@FXML
+	private void jumpToRoomMessage() {
+		roommessage.setId("room-h");
+		orderdeal.setId("dealorder");
+		addpromotion.setId("promotion");
+		basic.setId("maintenance");
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("RoomMessage.fxml"));
+			root = (AnchorPane) loader.load();
+			Broot.setRight(root);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 打开订单处理界面
+	 */
+	@FXML
+	private void jumpToDealOrder() {
+		roommessage.setId("room");
+		orderdeal.setId("dealorder-h");
+		addpromotion.setId("promotion");
+		basic.setId("maintenance");
+
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("DealOrder.fxml"));
+			root = (AnchorPane) loader.load();
+			Broot.setRight(root);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 打开促销策略界面
+	 */
+	@FXML
+	private void jumpToPromotionItem() {
+		roommessage.setId("room");
+		orderdeal.setId("dealorder");
+		addpromotion.setId("promotion-h");
+		basic.setId("maintenance");
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("PromotionItem.fxml"));
+			root = (AnchorPane) loader.load();
+			Broot.setRight(root);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 打开维护酒店信息界面
+	 */
+	@FXML
+	private void jumpToBasicMessage() {
+		roommessage.setId("room");
+		orderdeal.setId("dealorder");
+		addpromotion.setId("promotion");
+		basic.setId("maintenance-h");
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("BasicMessage.fxml"));
+			root = (AnchorPane) loader.load();
+			Broot.setRight(root);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void setRootLayout(RootLayout rootLayout) {
+		// TODO Auto-generated method stub
+		this.rootLayout = rootLayout;
+	}
+
+}

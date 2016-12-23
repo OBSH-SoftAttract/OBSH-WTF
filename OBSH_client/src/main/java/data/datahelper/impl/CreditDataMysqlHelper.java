@@ -77,7 +77,7 @@ public class CreditDataMysqlHelper implements CreditDataHelper {
 	public void setCreditData(CreditPo creditPo) {
 		// TODO Auto-generated method stub
 
-		sql = "insert into credit value("+creditPo.getUserID()+
+		sql = "insert into credit(userID, time, credit_result) values("+creditPo.getUserID()+
 				",'"+creditPo.getTime()+
 				"',"+creditPo.getCreditResult()+")";
 		db1 = new JDBCHelper(sql);//创建DBHelper对象  

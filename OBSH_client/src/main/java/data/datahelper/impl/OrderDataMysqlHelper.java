@@ -42,8 +42,11 @@ public class OrderDataMysqlHelper implements OrderDataHelper {
 	            int hotelId = ret.getInt(8);
 	            String roomInfo = ret.getString(9);
 	            boolean evaluate = ret.getBoolean(10);
+	            Timestamp attemptedLeaveTime = ret.getTimestamp(11);
+	            Timestamp timeCheckIn = ret.getTimestamp(12);
+	            Timestamp timeCheckOut = ret.getTimestamp(13);
 	            
-	        	OrderPo orderPo=new OrderPo(orderId, orderstate, startTime, endTime, lastTime, userId, price, hotelId, roomInfo, evaluate); 
+	        	OrderPo orderPo=new OrderPo(orderId, orderstate, startTime, endTime, lastTime,attemptedLeaveTime,timeCheckIn,timeCheckOut, userId, price, hotelId, roomInfo, evaluate); 
 	            map.put(orderId, orderPo);
 	        }//显示数据  
 	        ret.close();  
@@ -72,12 +75,15 @@ public class OrderDataMysqlHelper implements OrderDataHelper {
 			sql = "update orderbl set orderstate = "+orderPo.getOrderState()+
 					",starttime = '"+orderPo.getStartTime()+
 					"',endtime = '"+orderPo.getEndTime()+
-					"',lasttime = '"+orderPo.getlastTime()+
+					"',lasttime = '"+orderPo.getLastTime()+
 					"',userid = "+orderPo.getUserID()+
 					",price = "+orderPo.getPrice()+
 					",hotelid = "+orderPo.getHotelID()+
-					",roominfo = '"+orderPo.getroomInfo()+
-					"'evaluate = '"+ev+
+					",roominfo = '"+orderPo.getRoomInfo()+
+					"',evaluate = "+ev+
+					",attemptedLeaveTime ='"+orderPo.getAttemptedLeaveTime()+
+					"',timeCheckIn ='"+orderPo.getTimeCheckIn()+
+					"',timeCheckOut ='"+orderPo.getTimeCheckOut()+
 					"' where orderid = '"+orderPo.getOrderID()+"'";//SQL语句 
 			db1 = new JDBCHelper(sql);//创建DBHelper对象  
 			try {
@@ -101,14 +107,18 @@ public class OrderDataMysqlHelper implements OrderDataHelper {
 			ev = 0;
 		
 		sql = "insert into orderbl value('"+orderPo.getOrderID()+
-				"',"+orderPo.getOrderState()+",'"+orderPo.getStartTime()+
+				"',"+orderPo.getOrderState()+
+				",'"+orderPo.getStartTime()+
 				"','"+orderPo.getEndTime()+
-				"','"+orderPo.getlastTime()+
+				"','"+orderPo.getLastTime()+
 				"',"+orderPo.getUserID()+
 				","+orderPo.getPrice()+
 				","+orderPo.getHotelID()+
 				","+ev+
-				",'"+orderPo.getroomInfo()+"')";
+				",'"+orderPo.getAttemptedLeaveTime()+
+				"','"+orderPo.getTimeCheckIn()+
+				"','"+orderPo.getTimeCheckOut()+
+				"','"+orderPo.getRoomInfo()+"')";
 		db1 = new JDBCHelper(sql);//创建DBHelper对象  
 		try {
 			sta = db1.pst.executeUpdate(sql);

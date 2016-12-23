@@ -1,16 +1,18 @@
 package vo;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class HotelroomVo {
-	private int roomID;
-	private Timestamp TimeCheckIn;
-	private int hotelID;
-	private Timestamp AttemptedLeaveTime;
-	private Timestamp TimeCheckOut;
-	private String roomType;
-	private double price;
-	private boolean IfOccupied;
+public class HotelroomVo implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private int roomID=0;
+	private Timestamp TimeCheckIn=Timestamp.valueOf("2000-01-01 00:00:00");
+	private int hotelID=0;
+	private Timestamp AttemptedLeaveTime=Timestamp.valueOf("2000-01-01 00:00:00");
+	private Timestamp TimeCheckOut=Timestamp.valueOf("2000-01-01 00:00:00");
+	private String roomType="";
+	private double price=0;
+	private boolean IfOccupied=false;
 
     public HotelroomVo(int roomID,Timestamp datein,int hotelID,Timestamp attemptedLeaveTime,
     		Timestamp timecheckout,String roomtype,double price,boolean ifoccupied){
@@ -22,6 +24,13 @@ public class HotelroomVo {
     	this.roomType = roomtype;
     	this.price = price;
     	this.IfOccupied=ifoccupied;
+    }
+    
+    public HotelroomVo(int roomID,int hotelID,String roomtype,double price){
+    	this.roomID=roomID;
+    	this.hotelID=hotelID;
+    	this.roomType = roomtype;
+    	this.price = price;
     }
 
 	public boolean isIfOccupied() {

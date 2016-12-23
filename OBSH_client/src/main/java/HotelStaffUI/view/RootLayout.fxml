@@ -10,11 +10,14 @@
 
 <BorderPane fx:id="Broot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" stylesheets="@RootLayout.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HotelStaffUI.controller.RootLayoutController">
    <top>
-      <Pane prefHeight="70.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="changepane" prefHeight="70.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
             <Button id="close" layoutX="866.0" mnemonicParsing="false" onAction="#CloseStage" prefHeight="34.0" prefWidth="34.0" />
             <Button id="minimize" layoutX="832.0" mnemonicParsing="false" onAction="#minimizeStage" prefHeight="34.0" prefWidth="34.0" />
-            <Text id="hotelname" layoutX="629.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="酒店名称" />
+            <Text fx:id="hotelname" fill="WHITE" layoutX="629.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="酒店名称">
+               <font>
+                  <Font size="18.0" />
+               </font></Text>
          </children>
       </Pane>
    </top>
@@ -32,12 +35,17 @@
       <Pane prefHeight="35.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
             <Label id="staff" layoutX="53.0" layoutY="5.0" prefHeight="24.0" prefWidth="83.0" text="Hotelstaff：" textFill="WHITE" />
-            <Text id="staffname" fill="#27a2d6" layoutX="136.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0"/>
+            <Text fx:id="staffname" fill="#27a2d6" layoutX="136.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" />
             <Button id="SignOut" layoutX="806.0" layoutY="3.0" mnemonicParsing="false" onAction="#BackToSignIn" prefHeight="22.0" prefWidth="81.0" text="Sign Out">
                <font>
                   <Font size="11.0" />
                </font>
             </Button>
+            <Label layoutX="731.0" layoutY="8.0" onMouseClicked="#changePassword" text="修改密码" textFill="WHITE" underline="true">
+               <font>
+                  <Font name="YouYuan" size="14.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </bottom>

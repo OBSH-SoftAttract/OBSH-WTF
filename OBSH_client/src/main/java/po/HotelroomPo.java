@@ -1,12 +1,13 @@
 package po;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import vo.HotelroomVo;
 
 /**
  * 
- * roomID 房间编号：3011(第四位表示占用情况) 
+ * roomID 房间编号：301
  * TimeCheckIn 入住时间 
  * hotelID 酒店的ID 
  * AttemptedLeaveTime 预计退房时间
@@ -15,15 +16,17 @@ import vo.HotelroomVo;
  * price 房间价格 
  * IfOccupied 占用情况
  */
-public class HotelroomPo {
-	private int roomID;
-	private Timestamp TimeCheckIn;
-	private int hotelID;
-	private Timestamp AttemptedLeaveTime;
-	private Timestamp TimeCheckOut;
-	private String roomType;
-	private double price;
-	private boolean IfOccupied;
+public class HotelroomPo implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	private int roomID=0;
+	private Timestamp TimeCheckIn=Timestamp.valueOf("2000-01-01 00:00:00");
+	private int hotelID=0;
+	private Timestamp AttemptedLeaveTime=Timestamp.valueOf("2000-01-01 00:00:00");
+	private Timestamp TimeCheckOut=Timestamp.valueOf("2000-01-01 00:00:00");
+	private String roomType="";
+	private double price=0;
+	private boolean IfOccupied=false;
 
 	public HotelroomPo(int roomID, Timestamp datein, int hotelID, Timestamp attemptedLeaveTime, Timestamp timecheckout,
 			String roomtype, double price, boolean ifoccupied) {

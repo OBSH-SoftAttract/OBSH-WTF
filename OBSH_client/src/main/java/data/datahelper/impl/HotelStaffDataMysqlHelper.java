@@ -69,7 +69,7 @@ public class HotelStaffDataMysqlHelper implements HotelStaffDataHelper {
 			sql = "update HotelStaff set name = '"+userPo.getUsername()+
 					"', password = '"+userPo.getPassword()+
 					"',contactinfo = '"+userPo.getPhone()+
-					"’ where id = "+userPo.getId();//SQL语句 
+					"' where id = "+userPo.getId();//SQL语句 
 			db1 = new JDBCHelper(sql);//创建DBHelper对象  
 			try {
 				sta = db1.pst.executeUpdate(sql);

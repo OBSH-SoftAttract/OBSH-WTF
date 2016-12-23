@@ -12,14 +12,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import presentation.controller.UserViewControllerImpl;
 import vo.HotelVo;
 
 public class HotelFrame {
 
-	private UserViewControllerService controller;
+	private UserViewControllerImpl controller;
 	private HotelVo hotel;
 
-	public HotelFrame(UserViewControllerService controller, HotelVo hotelvo) {
+	public HotelFrame(UserViewControllerImpl controller, HotelVo hotelvo) {
 		this.controller = controller;
 		this.hotel = hotelvo;
 	}
@@ -59,7 +60,7 @@ public class HotelFrame {
 		Button tb3 = new Button("用户评价");
 		Button tb4 = new Button("历史预定");
 		HBox hb = new HBox();
-		hb.getChildren().addAll(tb1, tb2, tb3);
+		hb.getChildren().addAll(tb1, tb2, tb3, tb4);
 		gp.add(hb, 0, 5);
 		BorderPane b = new BorderPane();
 		tb1.setOnAction(new EventHandler<ActionEvent>() {
@@ -97,7 +98,9 @@ public class HotelFrame {
 		tb4.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				
+				HistoryList rl = new HistoryList(controller);
+				VBox vb4 = rl.addHistoryList(-1);
+				b.setCenter(vb4);
 			}
 		});
 		

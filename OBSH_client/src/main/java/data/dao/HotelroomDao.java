@@ -36,4 +36,6 @@ public interface HotelroomDao {
 	 */
 	public boolean deleteHotelroom(int hotelID, int roomID);
 
+	public List<HotelroomPo> getHotelroomByroomType(String roomType);
+
 }

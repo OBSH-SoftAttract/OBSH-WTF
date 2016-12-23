@@ -1,125 +1,131 @@
 package blservice;
+
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.Comparator;
 import java.util.List;
 
 import ResultMessage.ResultMessage;
 import po.HotelPo;
-import po.HotelroomPo;
 import vo.HotelVo;
-public interface HotelBLService {
-	/**
-	 * 
-	 * @param hotelNo
-	 * @return 添加酒店
-	 */
-	public ResultMessage Addhotel (HotelVo hotelvo)throws RemoteException;
+
+public interface HotelBLService extends Remote{
 
 	/**
-	 * 
+	 * 添加酒店 使用对象是网站管理人员
+	 * @param hotelvo
+	 * @return
+	 */
+	public ResultMessage Addhotel(HotelVo hotelvo)throws RemoteException;
+
+	/**
+	 * 根据地址商圈获取酒店
 	 * @param address
 	 * @param commercialDistrict
-	 * @return 按地址和商圈
+	 * @return
 	 */
 	public List<HotelPo> Views(String address, String commercialDistrict)throws RemoteException;
-	
+
 	/**
-	 * 
+	 * 获得酒店房间的最低价格
 	 * @param hotelid
-	 * @return 详细信息：地址+简介+设施服务+客房类型+价格
-	 */
-	public String ViewHotelDetail(int hotelid)throws RemoteException;
-	
-	/**
-	 * 
-	 * @param hotelid
-	 * @return 获得该酒店最低价
+	 * @return
 	 */
 	public double getHotelMinPrice(int hotelid)throws RemoteException;
-		/**
-	 * 
-	 * @param star
-	 * @return 按星级搜索
-	 */
-	public List<HotelPo> FilterByStar(int star,List<HotelPo> list)throws RemoteException;
-	
+
 	/**
-	 * 
-	 * @param list
-	 * @return 按星级排序（由高到低）
-	 */
-	public List<HotelPo> SortByStar(List<HotelPo> list)throws RemoteException;
-	
-	/**
-	 * 
-	 * @param min
-	 * @param max
-	 * @return 按原始价格区间搜索
-	 */
-	public List<HotelPo> FilterByPrice(double min, double max,List<HotelPo> list)throws RemoteException;
-	
-	/**
-	 * 
-	 * @param list
-	 * @return 按价格排序（由低到高）
-	 */
-	public List<HotelPo> SortByPrice(List<HotelPo> list)throws RemoteException;
-	
-	/**
-	 * 
-	 * @param id
-	 * @return 按酒店ID搜索
-	 * @throws RemoteException
-	 */
-	public HotelPo SearchByID(int id) throws RemoteException;
-	
-	/**
-	 * 
-	 * @param s
-	 * @param hotelID
-	 * @return 添加评价
-	 * @throws RemoteException
-	 */
-	public ResultMessage AddAssess(int score,String s,int hotelID)throws RemoteException;
-	/**
-	 * 
-	 * @param min
-	 * @param max
-	 * @return 按评价区间搜索
-	 */
-	public List<HotelPo> FilterByScore(double min, double max,List<HotelPo> list)throws RemoteException;
-	
-	/**
-	 * 
-	 * @param list
-	 * @return 按评分排序（由高到低）
-	 */
-	public List<HotelPo> SortByScore(List<HotelPo> list)throws RemoteException;
-	
-	/**
-	 * 
-	 * @param type
-	 * @return 按房间类型搜索
-	 */
-	public List<HotelPo> FilterByRoomType(String type,List<HotelPo> list)throws RemoteException;
-	
-	/**
-	 * 
+	 * 通过酒店名称获取酒店信息
 	 * @param hotel
-	 * @return 直接搜索酒店名称
+	 * @return
 	 */
 	public HotelPo SearchByName(String hotel)throws RemoteException;
 
 	/**
-	 * 
-	 * @param list
-	 * @return 
+	 * 通过酒店ID获取酒店信息
+	 * @param id
+	 * @return
 	 */
-	public List<HotelroomPo> SortByTime(List<HotelroomPo> list)throws RemoteException;
+	public HotelPo SearchByID(int id)throws RemoteException;
 
 	/**
-	 * 
-	 * @param type
-	 * @return 根据房间类型获得价格
+	 * 根据房间类型过滤搜索
+	 * @param roomType
+	 * @param hotellist
+	 * @return
 	 */
-	public double getHotelRoomPriceByType(String type, String hotelname);
+	public List<HotelVo> FilterByType(String roomType, List<HotelVo> hotellist)throws RemoteException;
+
+	/**
+	 * 根据酒店名称搜索
+	 * @param name
+	 * @param list
+	 * @return
+	 */
+	public List<HotelVo> FilterByName(String name, List<HotelVo> list)throws RemoteException;
+
+	/**
+	 * 搜索指定星级的酒店
+	 * @param hotelStar
+	 * @param hotellist
+	 * @return
+	 */
+	public List<HotelVo> FilterByStar(int hotelStar, List<HotelVo> hotellist)throws RemoteException;
+
+	/**
+	 * 广泛地排序 啥玩意
+	 * @param list
+	 * @param comList
+	 * @param Sort
+	 */
+	public void comprehensiveSort(List<HotelVo> list, boolean Sort[]) throws RemoteException;
+
+	/**
+	 * 添加计算评分
+	 * @param score
+	 * @param comment
+	 * @param hotelID
+	 * @return
+	 */
+	public ResultMessage AddAssess(int score, String comment, int hotelID)throws RemoteException;
+
+	/**
+	 * 获取指定房间类型的价格
+	 * @param type
+	 * @param hotelname
+	 * @return
+	 */
+	public double getHotelRoomPriceByType(String type, String hotelname)throws RemoteException;
+
+	/**
+	 * 添加酒店房间 胡渣渣版
+	 * @param hotelid
+	 * @param num
+	 * @param type
+	 * @param price
+	 */
+	public void AddRoom(int hotelid, int num, String type, double price)throws RemoteException;
+
+	/**
+	 * 修改指定房间类型的价格
+	 * @param hotelID
+	 * @param type
+	 * @param price
+	 */
+	public void ModifyPrice(int hotelID, String type, double price)throws RemoteException;
+
+	/**
+	 * 根据订单修改房间数目 我还是认为通过hotelroom在数据库get更好
+	 * @param hotelID
+	 * @param num
+	 * @param type
+	 */
+	public void ModifyRoomNumByOrder(int hotelID, int num, String type)throws RemoteException;
+
+	/**
+	 * 最后一个才是修改酒店信息
+	 * @param vo
+	 * @return
+	 */
+	public ResultMessage ModifyHotelMessage(HotelVo vo)throws RemoteException;
+
 }

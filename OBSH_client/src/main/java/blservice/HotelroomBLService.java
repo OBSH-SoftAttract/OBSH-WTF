@@ -1,10 +1,13 @@
 package blservice;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
+import po.HotelroomPo;
 import vo.HotelroomVo;
 
-public interface HotelroomBLService {
+public interface HotelroomBLService extends Remote{
 	
 	/**
 	 * 
@@ -33,4 +36,10 @@ public interface HotelroomBLService {
 	 * 修改客房的价格
 	 */
 	public void ModifyPrice(HotelroomVo vo)throws RemoteException;
+
+	public void CheckOut(int hotelID, int roomID)throws RemoteException;
+
+	public List<HotelroomPo> getHotelroomByType(String roomType)throws RemoteException;
+
+	public List<HotelroomPo> getHotelroomByID(int hotelID)throws RemoteException;
 }

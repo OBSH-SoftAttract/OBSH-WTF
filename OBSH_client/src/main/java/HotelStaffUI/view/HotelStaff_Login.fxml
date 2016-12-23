@@ -16,7 +16,7 @@
    <top>
       <Pane prefHeight="62.0" prefWidth="650.0" BorderPane.alignment="CENTER">
          <children>
-            <Button id="close" layoutX="616.0" layoutY="1.0" mnemonicParsing="false" onAction="#CloseStage" prefHeight="34.0" prefWidth="35.0" textFill="WHITE" />
+            <Button id="close" layoutX="616.0" mnemonicParsing="false" onAction="#CloseStage" prefHeight="34.0" prefWidth="35.0" textFill="WHITE" />
             <Button id="small" layoutX="581.0" mnemonicParsing="false" onAction="#minimizeStage" prefHeight="34.0" prefWidth="35.0" textFill="WHITE" />
          </children>
       </Pane>

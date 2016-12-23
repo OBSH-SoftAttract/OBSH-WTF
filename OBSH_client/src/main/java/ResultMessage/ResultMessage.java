@@ -1,10 +1,12 @@
 package ResultMessage;
 
-public enum ResultMessage {
-   WrongPassword,PASS,NotExist,NULL,
+import java.io.Serializable;
+
+public enum ResultMessage implements Serializable{
+   WrongPassword,PASS,NotExist,NULL,AlreadyLogin,
    FormatWrong,IDExsit,Success,
    UpdateSuccess,UpdateFail,
    OverTime,InTime,StateWrong,
    CreditMet,CreditWrong,
-   Common,Company,Person,
+   Common,Company,Person,HasExist,
 }

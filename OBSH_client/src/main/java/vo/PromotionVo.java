@@ -9,26 +9,25 @@ package vo;
  * discount           折扣 
  * @author bxh
  */
-import po.PromotionPo;
-import po.UserPo;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-import po.HotelPo;
-
-public class PromotionVo {
+public class PromotionVo implements Serializable{
 	
-	private int id;
+	private static final long serialVersionUID = 1L;
 	
-	private String itemName;
+	private int id=0;
 	
-	private Timestamp startTime;
+	private String itemName="";
 	
-	private Timestamp endTime;
+	private Timestamp startTime=null;
 	
-	private String promotionInfo;
+	private Timestamp endTime=null;
 	
-	private double discount;
+	private String promotionInfo="";
+	
+	private double discount=0;
 		
 	public PromotionVo(int id, double discount, String itemName, Timestamp startTime, Timestamp endTime, String promotionInfo){
 		this.id = id;

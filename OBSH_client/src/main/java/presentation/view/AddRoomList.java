@@ -15,13 +15,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import presentation.controller.UserViewControllerImpl;
 
 public class AddRoomList {
 	
-	UserViewControllerService controller;
+	private UserViewControllerImpl controller;
 	String HotelRooms[];
 	int index=0;
-	public AddRoomList(UserViewControllerService controller,String HotelRooms[]){
+	public AddRoomList(UserViewControllerImpl controller,String HotelRooms[]){
 		this.controller=controller;
 		this.HotelRooms=HotelRooms;
 	}

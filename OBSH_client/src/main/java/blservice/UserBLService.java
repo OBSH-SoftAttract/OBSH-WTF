@@ -1,27 +1,34 @@
 package blservice;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
 import ResultMessage.ResultMessage;
 import po.CreditPo;
-import po.HotelPo;
-import po.HotelroomPo;
 import po.OrderPo;
 import po.UserPo;
 import vo.HotelVo;
-import vo.HotelroomVo;
 import vo.UserVo;
 
-public interface UserBLService {
+public interface UserBLService extends Remote{
 	
 	/**
 	 * 
 	 * @param id
 	 * @param password
-	 * @return 登录
+	 * @return 客户登录
 	 */
 	public ResultMessage login(int id, String password)throws RemoteException;
+	
+	/**
+	 * 
+	 * @param id
+	 * @param password
+	 * @return 酒店工作人员登录
+	 * @throws RemoteException
+	 */
+	public ResultMessage loginHotel(int id, String password)throws RemoteException;
 	
 	/**
 	 * 
@@ -64,7 +71,7 @@ public interface UserBLService {
 	 * @param vo
 	 * @return 添加用户
 	 */
-	public ResultMessage AddClient(UserVo vo)throws RemoteException;
+	public int AddClient(UserVo vo)throws RemoteException;
 	
 	/**
 	 * 
@@ -86,10 +93,23 @@ public interface UserBLService {
 	 * @return 获得历史订单记录
 	 */
 	public List<OrderPo> GetOrderHistory (int id)throws RemoteException	;
-	
+
 	/**
 	 * 
-	 * @return 获得自增的客户ID
+	 * @param ID
+	 * @return 获取酒店工作人员
+	 * @throws RemoteException
 	 */
-	public int GetNewClientID();
+	public UserPo GetHotelStaffByID(int ID) throws RemoteException;
+
+	/**
+	 * 登出
+	 * @param id
+	 * @throws RemoteException
+	 */
+	public void logout(int id) throws RemoteException;
+
+	public ResultMessage ModifyHotelStaffPassword(UserVo vo)throws RemoteException;
+
+
 }

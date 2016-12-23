@@ -1,11 +1,12 @@
 package blservice;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
 import ResultMessage.ResultMessage;
 import po.PromotionPo;
 import vo.PromotionVo;
-public interface PromotionBLService {
+public interface PromotionBLService extends Remote{
 	/**
 	 * 
 	 * @param id
@@ -34,4 +35,7 @@ public interface PromotionBLService {
 	 * @return 返回营销策略信息
 	 */
 	public List<PromotionPo> getPromotions()throws RemoteException;
+
+
+	public List<PromotionPo> getPromotionByHotel(int hotelID) throws RemoteException;
 }

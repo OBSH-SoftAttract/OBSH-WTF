@@ -1,22 +1,28 @@
 package vo;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * orderID		订单编号
- * orderState   订单状态（0：未执行订单；1：已执行订单；2：异常订单；3：已撤销订单）
- * StartTime    订单开始时间
- * EndTime      订单生效时间
- * lastTime     订单最晚时间
- * userID       用户的账号
- * price        订单价格
- * hotelID      酒店编号
- * roomInfo     房间信息
- * evaluate     是否评价过
+ * orderID		                订单编号
+ * orderState         订单状态（0：未执行订单；1：已执行订单；2：异常订单；3：已撤销订单）
+ * StartTime          订单生成时间
+ * EndTime            订单生效时间
+ * lastTime           订单最晚时间
+ * TimeCheckIn        入住时间 
+ * AttemptedLeaveTime 预计退房时间
+ * TimeCheckOut       退房时间
+ * userID             用户的账号
+ * price              订单总价格
+ * hotelID            酒店编号
+ * roomInfo           房间信息(类型+个数+单个原价)
+ * evaluate           是否评价过
  */
-public class OrderVo {
+public class OrderVo implements Serializable{
 
-    private String orderID;
+	private static final long serialVersionUID = 1L;
+
+	private String orderID="";
 	
 	private int orderState=-1;
 	
@@ -26,24 +32,48 @@ public class OrderVo {
 	
 	private Timestamp lastTime;
 	
-	private int userID;
+	private Timestamp AttemptedLeaveTime;
 	
-	private double price;
+	private Timestamp TimeCheckIn;
 	
-	private int hotelID;
+	private Timestamp TimeCheckOut; 
 	
-	private String roomInfo;
+	private int userID=0;
 	
-	private boolean evaluate;
+	private double price=0;
+	
+	private int hotelID=0;
+	
+	private String roomInfo="";
+	
+	private boolean evaluate=false;
 	
 	
 	public OrderVo(String orderid,int orderstate,Timestamp starttime,Timestamp endtime,
-			Timestamp lasttime,int userid,double pri,int hotelid,String roominfo,boolean evaluate){
+			Timestamp lasttime,Timestamp AttemptedLeaveTime,Timestamp TimeCheckIn,
+			Timestamp TimeCheckOut,int userid,double pri,int hotelid,String roominfo,boolean evaluate){
 		this.orderID=orderid;
 		this.orderState=orderstate;
 		this.StartTime=starttime;
 		this.EndTime=endtime;
 		this.lastTime=lasttime;
+		this.AttemptedLeaveTime=AttemptedLeaveTime;
+		this.TimeCheckIn=TimeCheckIn;
+		this.TimeCheckOut=TimeCheckOut;
+		this.userID=userid;
+		this.price=pri;
+		this.hotelID=hotelid;
+		this.evaluate=evaluate;
+	}
+	
+	public OrderVo(String orderid,int orderstate,Timestamp starttime,Timestamp endtime,
+			Timestamp lasttime,Timestamp AttemptedLeaveTime,int userid,double pri,int hotelid,String roominfo,boolean evaluate){
+		this.orderID=orderid;
+		this.orderState=orderstate;
+		this.StartTime=starttime;
+		this.EndTime=endtime;
+		this.lastTime=lasttime;
+		this.AttemptedLeaveTime=AttemptedLeaveTime;
 		this.userID=userid;
 		this.price=pri;
 		this.hotelID=hotelid;
@@ -51,13 +81,6 @@ public class OrderVo {
 		this.evaluate=evaluate;
 	}
 
-	public boolean isEvaluate() {
-		return evaluate;
-	}
-
-	public void setEvaluate(boolean evaluate) {
-		this.evaluate = evaluate;
-	}
 
 	public String getOrderID() {
 		return orderID;
@@ -99,6 +122,30 @@ public class OrderVo {
 		this.lastTime = lastTime;
 	}
 
+	public Timestamp getAttemptedLeaveTime() {
+		return AttemptedLeaveTime;
+	}
+
+	public void setAttemptedLeaveTime(Timestamp attemptedLeaveTime) {
+		AttemptedLeaveTime = attemptedLeaveTime;
+	}
+
+	public Timestamp getTimeCheckIn() {
+		return TimeCheckIn;
+	}
+
+	public void setTimeCheckIn(Timestamp timeCheckIn) {
+		TimeCheckIn = timeCheckIn;
+	}
+
+	public Timestamp getTimeCheckOut() {
+		return TimeCheckOut;
+	}
+
+	public void setTimeCheckOut(Timestamp timeCheckOut) {
+		TimeCheckOut = timeCheckOut;
+	}
+
 	public int getUserID() {
 		return userID;
 	}
@@ -130,6 +177,15 @@ public class OrderVo {
 	public void setRoomInfo(String roomInfo) {
 		this.roomInfo = roomInfo;
 	}
+
+	public boolean isEvaluate() {
+		return evaluate;
+	}
+
+	public void setEvaluate(boolean evaluate) {
+		this.evaluate = evaluate;
+	}
+
 
 
 }

@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
+import ResultMessage.ResultMessage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,6 +28,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import presentation.controller.UserViewControllerImpl;
 
 public class ProduceOrder {
 	private final String pattern = "yyyy-MM-dd";
@@ -38,9 +40,9 @@ public class ProduceOrder {
 	ObservableList<String> hours = FXCollections.observableArrayList("00","01","02","03","04","05",
 			"06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23");
 	
-	UserViewControllerService controller;
+	private UserViewControllerImpl controller;
 	
-	public ProduceOrder(UserViewControllerService controller){
+	public ProduceOrder(UserViewControllerImpl controller){
 		this.controller=controller;
 	}
 	
@@ -92,22 +94,12 @@ public class ProduceOrder {
 		HBox roombox = new HBox();
 		roombox.setPadding(new Insets(0,0,0,100));
 		roombox.setSpacing(10);
-		ObservableList<String> options;
-		if(Roomtype.equals("")){
-			options=FXCollections.observableArrayList(
-			        "大床房",
-			        "双床房",
-			        "家庭房",
-			        "套间");
-		}
-		else{
-			options=FXCollections.observableArrayList(Roomtype);
-		}
+	
+		String []typelist=Roomtype.split("/");
+		ObservableList<String> options = FXCollections.observableArrayList(typelist);
 
-		
-		
 		ComboBox roomtype = new ComboBox(options);
-		roomtype.setValue("大床房");
+		roomtype.setValue(typelist[0]);
 		roomtype.setMaxWidth(100);
 		roomtype.setMinWidth(100);
 		TextField roomnum = new TextField();
@@ -127,6 +119,7 @@ public class ProduceOrder {
 		child.setMaxWidth(70);
 		child.setMinWidth(70);
 		Button button = new Button("确定");
+		Button button2=new Button("取消");
 		roombox.getChildren().addAll(addText("房间类型："),roomtype,addText("房间数量："),roomnum);
 		HBox peoplebox = new HBox();
 		peoplebox.setSpacing(10);
@@ -137,6 +130,7 @@ public class ProduceOrder {
 		buttonbox.setPadding(new Insets(20,0,0,0));
 		buttonbox.setAlignment(Pos.CENTER);
 		buttonbox.getChildren().add(button);
+		buttonbox.getChildren().add(button2);
 		VBox vb = new VBox();
 		vb.setAlignment(Pos.CENTER);
 		vb.getChildren().addAll(starttime,endtime,lasttime,roombox,peoplebox,buttonbox);
@@ -146,58 +140,174 @@ public class ProduceOrder {
 		vb.setMaxSize(600, 500);
 		stage.setScene(scene);
 		stage.show();
+				
+		button2.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event) {
+				stage.close();
+			}	
+		});
 		
 		button.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-				//controller保存订单信息
-				//这个是 LocalDate数据类型的date，系统自带的
-				checkindate = checkinDatePicker.getValue();
-				checkoutdate = checkoutDatePicker.getValue();
-				//获得checkin时间索引
 				
-				String start=checkindate.toString();
-				String end=checkoutdate.toString();
-				String deadline=start;
+				ResultMessage re=ResultMessage.CreditWrong;
 				
-				int startHourIndex = checkinhourbox.getSelectionModel().getSelectedIndex();
-				int startMinuteIndex = checkinminbox.getSelectionModel().getSelectedIndex();
-				start=start+" "+startHourIndex+":"+startMinuteIndex+":"+"00";
-				
-				
-				int deadHour=startHourIndex+2;
-				int deadMinute=startMinuteIndex;
-				
-				if(startHourIndex>23){
-					deadHour-=24;
-					Format f = new SimpleDateFormat("yyyy-MM-dd"); 
-					java.util.Date datea=Date.valueOf(deadline);
-					Calendar   calendar   = Calendar.getInstance();
-				    calendar.setTime(datea); 
-				    calendar.add(Calendar.DAY_OF_MONTH, 1);
-				    datea=calendar.getTime();
-				    deadline=datea.toString();
-				}
-				deadline=deadline+" "+deadHour+":"+deadMinute+":"+"00";
-				
-				//获得checkout时间索引
-				int endHourIndex = checkouthourbox.getSelectionModel().getSelectedIndex();
-				int endMinuteIndex = checkoutminbox.getSelectionModel().getSelectedIndex();
-				end=end+" "+endHourIndex+":"+endMinuteIndex+":"+"00";
-				//checkin，checkout对应小时、分钟
-				int roomTypeSelected = roomtype.getSelectionModel().getSelectedIndex();//获得房间类型索引
-				int roomnumber = Integer.parseInt(roomnum.getText());//获得房间数量
-								
 				try {
-					int userID=controller.GetPresentUserInfo().getID();
-					controller.ProduceOrder(hotelname,start, end, deadline, options.get(roomTypeSelected), roomnumber,userID);
+					re=controller.CheckIfCreditMet(controller.getUserID());
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
+				
+				switch(re){
+				case CreditWrong:
+					Stage stage1 = new Stage();
+					Text text0 = new Text("陛下的信用值不够呢");
+					Button button0 = new Button("朕知道了");
+					VBox vb0 = new VBox();
+					vb0.setSpacing(10);
+					vb0.getChildren().addAll(text0, button0);
+					vb0.setMinSize(200, 200);
+					vb0.setMaxSize(200, 200);
+					vb0.setAlignment(Pos.CENTER);
+					Scene scene0 = new Scene(vb0);
+					stage1.setScene(scene0);
+					stage1.show();
+					
+					button0.setOnAction(new EventHandler<ActionEvent>(){
+						@Override
+						public void handle(ActionEvent event) {
+							stage1.close();
+						}
+					});break;
+				case CreditMet:
+					double price=0;
+					
+					int roomTypeSelected = roomtype.getSelectionModel().getSelectedIndex();//获得房间类型索引
+					int roomnumber = Integer.parseInt(roomnum.getText());//获得房间数量
+					String Type=options.get(roomTypeSelected);
+				    boolean roomnum0=true;
+					
+					try {
+						String rooms[]=controller.getHotelInfoByName(hotelname).getRoomInfo().split(";");
+						for(int i=0;i<rooms.length;i++){
+							String t[]=rooms[i].split("+");
+							if(t[0].equals(Type)){
+								if(Integer.parseInt(t[1])<roomnumber){//数量不足
+									roomnum0=false;
+								}
+								price=Double.parseDouble(t[2]);
+							}
+						}
+					} catch (RemoteException e1) {
+						e1.printStackTrace();
+					}
+					if(roomnum0){
+					checkindate = checkinDatePicker.getValue();
+					checkoutdate = checkoutDatePicker.getValue();
+					//获得checkin时间索引
+					
+					String start=checkindate.toString();
+					String end=checkoutdate.toString();
+					String deadline=start;
+					
+					int startHourIndex = checkinhourbox.getSelectionModel().getSelectedIndex();
+					int startMinuteIndex = checkinminbox.getSelectionModel().getSelectedIndex();
+					start=start+" "+startHourIndex+":"+startMinuteIndex+":"+"00";
+					
+					
+					int deadHour=startHourIndex+2;
+					int deadMinute=startMinuteIndex;
+					
+					if(startHourIndex>23){
+						deadHour-=24;
+						Format f = new SimpleDateFormat("yyyy-MM-dd"); 
+						java.util.Date datea=Date.valueOf(deadline);
+						Calendar   calendar   = Calendar.getInstance();
+					    calendar.setTime(datea); 
+					    calendar.add(Calendar.DAY_OF_MONTH, 1);
+					    datea=calendar.getTime();
+					    deadline=datea.toString();
+					}
+					deadline=deadline+" "+deadHour+":"+deadMinute+":"+"00";
+					
+					//获得checkout时间索引
+					int endHourIndex = checkouthourbox.getSelectionModel().getSelectedIndex();
+					int endMinuteIndex = checkoutminbox.getSelectionModel().getSelectedIndex();
+					end=end+" "+endHourIndex+":"+endMinuteIndex+":"+"00";
+					//checkin，checkout对应小时、分钟
+	
+					
+					int userID=controller.getUserID();
+					OrderConfirm(stage,hotelname,start, end, deadline,Type , roomnumber,userID,price);
+					}
+					else{
+						roomnum.setText("数量不足诶");
+					}
+				}
+				
+				
+			}
+			});
+	}
+	
+	public void OrderConfirm(Stage stage0,String hotelname,String start, String end, String deadline,
+			String type, int roomNum,int userID,double price) {
+		Stage stage = new Stage();
+		Text text = new Text("您真的要下这个订单吗？");
+		
+		String s=String.valueOf(roomNum)+"间"+type+":";
+		double dis=1;
+		try {
+			
+			dis=controller.BestPromotionDiscount(userID);
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
+
+		if(dis==1){
+			s=s+String.valueOf(roomNum*price)+"RMB";
+		}
+		else{
+			s=s+"("+"折扣:"+String.valueOf(dis)+")"+String.valueOf(roomNum*price*dis)+"RMB";
+		}
+		
+		Text warn= new Text(s);
+		Button button = new Button("明智地确定");
+		Button button2= new Button("残忍地放弃");
+		VBox vb = new VBox();
+		vb.setSpacing(10);
+		vb.getChildren().addAll(text, warn,button);
+		vb.getChildren().add(button2);
+		vb.setMinSize(200, 200);
+		vb.setMaxSize(200, 200);
+		vb.setAlignment(Pos.CENTER);
+		Scene scene = new Scene(vb);
+		stage.setScene(scene);
+		stage.show();
+		
+		button2.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event) {
+				stage.close();
+			}
+		});
+		
+		button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					controller.ProduceOrder(hotelname, start, end, deadline, type, roomNum, userID);
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}
 				stage.close();
+				stage.show();
 			}
-			});
+		});
 	}
+	
 	public DatePicker addDatePicker(DatePicker datePicker){
 		datePicker.setMaxSize(140, 25);
 		datePicker.setMinSize(140, 25);

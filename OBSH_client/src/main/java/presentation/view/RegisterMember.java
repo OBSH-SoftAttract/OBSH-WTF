@@ -13,13 +13,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import presentation.controller.UserViewControllerImpl;
 import vo.UserVo;
 
 public class RegisterMember {
 	
-	UserViewControllerService controller;
+	private UserViewControllerImpl controller;
 	
-	public RegisterMember(UserViewControllerService controller) {
+	public RegisterMember(UserViewControllerImpl controller) {
 		this.controller = controller;
 
 	}

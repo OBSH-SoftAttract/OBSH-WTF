@@ -1,14 +1,12 @@
 package blservice;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 
 import ResultMessage.ResultMessage;
 import po.OrderPo;
 import po.PromotionPo;
 import vo.OrderVo;
-import vo.PromotionVo;
 
 public interface OrderBLService extends Remote{
 	
@@ -49,7 +47,7 @@ public interface OrderBLService extends Remote{
 	 * @return 添加订单
 	 * @throws RemoteException 
 	 */
-	public ResultMessage Add(OrderVo ordervo) throws RemoteException; 
+	public ResultMessage AddOrder(OrderVo ordervo) throws RemoteException; 
 	
 	/**
 	 * 
@@ -57,23 +55,23 @@ public interface OrderBLService extends Remote{
 	 * @return 检查信用值是否满足下单要求
 	 * @throws RemoteException 
 	 */
-	public ResultMessage CreditCheck(OrderVo ordervo) throws RemoteException ;
+	public ResultMessage CreditCheck(int userid) throws RemoteException ;
 	
 	/**
 	 * 
 	 * @param userid
-	 * @return 获得符合该用户的最优策略
+	 * @return 获得最优策略
 	 * @throws RemoteException 
 	 */
-	public PromotionPo CalPromotion(int userid) throws RemoteException;
+	public PromotionPo CalPromotion() throws RemoteException;
 	
 	/**
 	 * 
-	 * @param vo
-	 * @return 获得订单价格
+	 * @param userid
+	 * @return 获得最佳折扣
 	 * @throws RemoteException 
 	 */
-	public double CalPrice(OrderVo vo) throws RemoteException;
+	public double CalDiscount(int userID) throws RemoteException;
 	
 	/**
 	 * 
@@ -145,4 +143,13 @@ public interface OrderBLService extends Remote{
 	 * @throws RemoteException 
 	 */
 	public String CreateID(int userID) throws RemoteException;
+
+	/**
+	 * 
+	 * @param state
+	 * @param id
+	 * @return 获取指定状态的酒店订单列表
+	 * @throws RemoteException
+	 */
+	public List<OrderPo> ViewByStateHotel(int state, int id) throws RemoteException;
 }

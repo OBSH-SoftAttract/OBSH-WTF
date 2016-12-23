@@ -90,14 +90,19 @@ public class HotelroomDataMysqlHelper implements HotelroomDataHelper {
 	public void addHotelroom(HotelroomPo hotelroomPo) {
 		// TODO Auto-generated method stub
 
-		sql = "insert into hotelroom value("+hotelroomPo.getRoomID()+
-				",'"+hotelroomPo.getTimeCheckIn()+
-				"',"+hotelroomPo.getHotelID()+
-				",'"+hotelroomPo.getAttemptedLeaveTime()+
-				"','"+hotelroomPo.getTimeCheckOut()+
-				"','"+hotelroomPo.getRoomType()+
+		/*int isEmpty;
+		if(hotelroomPo.isIfOccupied())
+			isEmpty = 1;
+		else
+			isEmpty = 0;*/
+		sql = "insert into hotelroom (roomID, TimeCheckIn, hotelID, AttemptedLeaveTime, TimeCheckOut, roomType, price, isEmpty) values("+hotelroomPo.getRoomID()+
+				",'2000-01-01 00:00:00'"+
+				","+hotelroomPo.getHotelID()+
+				",'2000-01-01 00:00:00'"+
+				",'2000-01-01 00:00:00'"+
+				",'"+hotelroomPo.getRoomType()+
 				"',"+hotelroomPo.getPrice()+
-				","+hotelroomPo.isIfOccupied()+")";
+				",0)";
 		db1 = new JDBCHelper(sql);//创建DBHelper对象  
 		try {
 			sta = db1.pst.executeUpdate(sql);
